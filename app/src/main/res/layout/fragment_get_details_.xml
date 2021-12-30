@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".Home_Page">
+    tools:context=".getDetails_Fragment">
 
     <!-- TODO: Update blank fragment layout -->
 
@@ -13,29 +13,17 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-
         <ImageView
-            android:id="@+id/addPost_btn_imag"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:id="@+id/addPost_btn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:src="@drawable/page"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="1.0" />
-
-        <ImageButton
-            android:id="@+id/addPost_btn"
-            android:layout_width="70dp"
-            android:layout_height="69dp"
-            android:scaleType="fitXY"
-            android:src="@drawable/addpost2"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.953"
-            app:layout_constraintStart_toStartOf="parent" />
+            app:layout_constraintVertical_bias="0.0" />
 
         <ImageButton
             android:id="@+id/back_btn"
@@ -47,17 +35,16 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.046"
             app:layout_constraintStart_toStartOf="parent" />
-        <TextView
-            android:id="@+id/text_MyProfile"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="80dp"
-            android:text="My Profile"
-            android:textColor="#000000"
-            android:textSize="34sp"
-            android:textStyle="bold"
+        <ImageButton
+            android:id="@+id/profile_btn"
+            android:layout_width="70dp"
+            android:layout_height="70dp"
+            android:scaleType="fitXY"
+            android:src="@drawable/profil"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintHorizontal_bias="0.953"
+            app:layout_constraintStart_toStartOf="parent" />
+
     </androidx.constraintlayout.widget.ConstraintLayout>
 </FrameLayout>

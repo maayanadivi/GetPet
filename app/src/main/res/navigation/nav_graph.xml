@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/nav_graph"
+    app:startDestination="@id/home_Page">
+
+    <fragment
+        android:id="@+id/signupFragment"
+        android:name="com.example.getpet.SignupFragment"
+        android:label="fragment_signup"
+        tools:layout="@layout/fragment_signup" >
+        <action
+            android:id="@+id/action_signupFragment_to_loginFragment"
+            app:destination="@id/loginFragment" />
+        <action
+            android:id="@+id/action_signupFragment_to_homepage_Fragment"
+            app:destination="@id/homepage_Fragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/loginFragment"
+        android:name="com.example.getpet.loginFragment"
+        android:label="fragment_login"
+        tools:layout="@layout/fragment_login" >
+        <action
+            android:id="@+id/action_loginFragment_to_signupFragment"
+            app:destination="@id/signupFragment" />
+        <action
+            android:id="@+id/action_loginFragment_to_homepage_Fragment"
+            app:destination="@id/homepage_Fragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/home_Page"
+        android:name="com.example.getpet.Home_Page"
+        android:label="fragment_add_new_pet__page"
+        tools:layout="@layout/fragment_add_new_pet__page" />
+    <fragment
+        android:id="@+id/homepage_Fragment"
+        android:name="com.example.getpet.homepage_Fragment"
+        android:label="fragment_homepage_"
+        tools:layout="@layout/fragment_homepage_" >
+        <action
+            android:id="@+id/action_homepage_Fragment_to_myProfile_Fragment"
+            app:destination="@id/myProfile_Fragment" />
+        <action
+            android:id="@+id/action_homepage_Fragment_to_getDetails_Fragment"
+            app:destination="@id/getDetails_Fragment" />
+        <action
+            android:id="@+id/action_homepage_Fragment_to_home_Page"
+            app:destination="@id/home_Page" />
+    </fragment>
+    <fragment
+        android:id="@+id/myProfile_Fragment"
+        android:name="com.example.getpet.myProfile_Fragment"
+        android:label="fragment_my_profile_"
+        tools:layout="@layout/fragment_my_profile_" >
+        <action
+            android:id="@+id/action_myProfile_Fragment_to_homepage_Fragment"
+            app:destination="@id/homepage_Fragment" />
+        <action
+            android:id="@+id/action_myProfile_Fragment_to_myPostFragment"
+            app:destination="@id/myPostFragment" />
+        <action
+            android:id="@+id/action_myProfile_Fragment_to_home_Page"
+            app:destination="@id/home_Page" />
+    </fragment>
+    <fragment
+        android:id="@+id/editPost_Fragment"
+        android:name="com.example.getpet.editPost_Fragment"
+        android:label="fragment_edit_post_"
+        tools:layout="@layout/fragment_edit_post_" >
+        <action
+            android:id="@+id/action_editPost_Fragment_to_myPostFragment"
+            app:destination="@id/myPostFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/getDetails_Fragment"
+        android:name="com.example.getpet.getDetails_Fragment"
+        android:label="fragment_get_details_"
+        tools:layout="@layout/fragment_get_details_" >
+        <action
+            android:id="@+id/action_getDetails_Fragment_to_myProfile_Fragment"
+            app:destination="@id/myProfile_Fragment" />
+        <action
+            android:id="@+id/action_getDetails_Fragment_to_homepage_Fragment"
+            app:destination="@id/homepage_Fragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/myPostFragment"
+        android:name="com.example.getpet.myPostFragment"
+        android:label="fragment_my_post"
+        tools:layout="@layout/fragment_my_post" >
+        <action
+            android:id="@+id/action_myPostFragment_to_myProfile_Fragment"
+            app:destination="@id/myProfile_Fragment" />
+        <action
+            android:id="@+id/action_myPostFragment_to_editPost_Fragment"
+            app:destination="@id/editPost_Fragment" />
+    </fragment>
+</navigation>

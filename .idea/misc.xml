@@ -3,17 +3,26 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="..\:/Users/nadiv/AndroidStudioProjects/GetPet/app/src/main/res/drawable-v24/ic_launcher_foreground.xml" value="0.18020833333333333" />
+        <entry key="..\:/Users/nadiv/AndroidStudioProjects/GetPet/app/src/main/res/drawable/ic_launcher_background.xml" value="0.18020833333333333" />
         <entry key="..\:/Users/nadiv/AndroidStudioProjects/GetPet/app/src/main/res/drawable/shape.xml" value="0.18020833333333333" />
         <entry key="..\:/Users/nadiv/AndroidStudioProjects/GetPet/app/src/main/res/layout/activity_main.xml" value="0.1" />
         <entry key="..\:/Users/nadiv/AndroidStudioProjects/GetPet/app/src/main/res/layout/fragment_add_new_pet__page.xml" value="0.12" />
+        <entry key="..\:/Users/nadiv/AndroidStudioProjects/GetPet/app/src/main/res/layout/fragment_edit_post_.xml" value="0.1" />
         <entry key="..\:/Users/nadiv/AndroidStudioProjects/GetPet/app/src/main/res/layout/fragment_edit_post__page.xml" value="0.16666666666666666" />
+        <entry key="..\:/Users/nadiv/AndroidStudioProjects/GetPet/app/src/main/res/layout/fragment_get_details_.xml" value="0.1" />
         <entry key="..\:/Users/nadiv/AndroidStudioProjects/GetPet/app/src/main/res/layout/fragment_get_details_page.xml" value="0.3333333333333333" />
         <entry key="..\:/Users/nadiv/AndroidStudioProjects/GetPet/app/src/main/res/layout/fragment_home__page.xml" value="0.16666666666666666" />
+        <entry key="..\:/Users/nadiv/AndroidStudioProjects/GetPet/app/src/main/res/layout/fragment_homepage_.xml" value="0.1" />
+        <entry key="..\:/Users/nadiv/AndroidStudioProjects/GetPet/app/src/main/res/layout/fragment_login.xml" value="0.1" />
         <entry key="..\:/Users/nadiv/AndroidStudioProjects/GetPet/app/src/main/res/layout/fragment_login__page.xml" value="0.16666666666666666" />
+        <entry key="..\:/Users/nadiv/AndroidStudioProjects/GetPet/app/src/main/res/layout/fragment_my_post.xml" value="0.1" />
         <entry key="..\:/Users/nadiv/AndroidStudioProjects/GetPet/app/src/main/res/layout/fragment_my_post__page.xml" value="0.14666666666666667" />
+        <entry key="..\:/Users/nadiv/AndroidStudioProjects/GetPet/app/src/main/res/layout/fragment_my_profile_.xml" value="0.1" />
         <entry key="..\:/Users/nadiv/AndroidStudioProjects/GetPet/app/src/main/res/layout/fragment_my_profile__page.xml" value="0.16666666666666666" />
         <entry key="..\:/Users/nadiv/AndroidStudioProjects/GetPet/app/src/main/res/layout/fragment_pet__list__row.xml" value="0.5" />
         <entry key="..\:/Users/nadiv/AndroidStudioProjects/GetPet/app/src/main/res/layout/fragment_sign_up__page.xml" value="0.15172101449275363" />
+        <entry key="..\:/Users/nadiv/AndroidStudioProjects/GetPet/app/src/main/res/layout/fragment_signup.xml" value="0.16666666666666666" />
       </map>
     </option>
   </component>

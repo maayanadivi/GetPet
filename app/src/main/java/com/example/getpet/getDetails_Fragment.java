@@ -10,10 +10,10 @@ import android.view.ViewGroup;
 
 /**
  * A simple {@link Fragment} subclass.
- * Use the {@link Login_Page#newInstance} factory method to
+ * Use the {@link getDetails_Fragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class Login_Page extends Fragment {
+public class getDetails_Fragment extends Fragment {
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -24,7 +24,7 @@ public class Login_Page extends Fragment {
     private String mParam1;
     private String mParam2;
 
-    public Login_Page() {
+    public getDetails_Fragment() {
         // Required empty public constructor
     }
 
@@ -34,11 +34,11 @@ public class Login_Page extends Fragment {
      *
      * @param param1 Parameter 1.
      * @param param2 Parameter 2.
-     * @return A new instance of fragment Login_Page.
+     * @return A new instance of fragment getDetails_Fragment.
      */
     // TODO: Rename and change types and number of parameters
-    public static Login_Page newInstance(String param1, String param2) {
-        Login_Page fragment = new Login_Page();
+    public static getDetails_Fragment newInstance(String param1, String param2) {
+        getDetails_Fragment fragment = new getDetails_Fragment();
         Bundle args = new Bundle();
         args.putString(ARG_PARAM1, param1);
         args.putString(ARG_PARAM2, param2);
@@ -59,6 +59,6 @@ public class Login_Page extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_login__page, container, false);
+        return inflater.inflate(R.layout.fragment_get_details_, container, false);
     }
 }

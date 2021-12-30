@@ -10,10 +10,10 @@ import android.view.ViewGroup;
 
 /**
  * A simple {@link Fragment} subclass.
- * Use the {@link MyProfile_Page#newInstance} factory method to
+ * Use the {@link homepage_Fragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class MyProfile_Page extends Fragment {
+public class homepage_Fragment extends Fragment {
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -24,7 +24,7 @@ public class MyProfile_Page extends Fragment {
     private String mParam1;
     private String mParam2;
 
-    public MyProfile_Page() {
+    public homepage_Fragment() {
         // Required empty public constructor
     }
 
@@ -34,11 +34,11 @@ public class MyProfile_Page extends Fragment {
      *
      * @param param1 Parameter 1.
      * @param param2 Parameter 2.
-     * @return A new instance of fragment MyProfile_Page.
+     * @return A new instance of fragment homepage_Fragment.
      */
     // TODO: Rename and change types and number of parameters
-    public static MyProfile_Page newInstance(String param1, String param2) {
-        MyProfile_Page fragment = new MyProfile_Page();
+    public static homepage_Fragment newInstance(String param1, String param2) {
+        homepage_Fragment fragment = new homepage_Fragment();
         Bundle args = new Bundle();
         args.putString(ARG_PARAM1, param1);
         args.putString(ARG_PARAM2, param2);
@@ -59,6 +59,6 @@ public class MyProfile_Page extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_my_profile__page, container, false);
+        return inflater.inflate(R.layout.fragment_homepage_, container, false);
     }
 }

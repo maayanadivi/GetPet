@@ -10,10 +10,10 @@ import android.view.ViewGroup;
 
 /**
  * A simple {@link Fragment} subclass.
- * Use the {@link SignUp_Page#newInstance} factory method to
+ * Use the {@link SignupFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class SignUp_Page extends Fragment {
+public class SignupFragment extends Fragment {
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -24,7 +24,7 @@ public class SignUp_Page extends Fragment {
     private String mParam1;
     private String mParam2;
 
-    public SignUp_Page() {
+    public SignupFragment() {
         // Required empty public constructor
     }
 
@@ -34,11 +34,11 @@ public class SignUp_Page extends Fragment {
      *
      * @param param1 Parameter 1.
      * @param param2 Parameter 2.
-     * @return A new instance of fragment SignUp_Page.
+     * @return A new instance of fragment SignupFragment.
      */
     // TODO: Rename and change types and number of parameters
-    public static SignUp_Page newInstance(String param1, String param2) {
-        SignUp_Page fragment = new SignUp_Page();
+    public static SignupFragment newInstance(String param1, String param2) {
+        SignupFragment fragment = new SignupFragment();
         Bundle args = new Bundle();
         args.putString(ARG_PARAM1, param1);
         args.putString(ARG_PARAM2, param2);
@@ -59,6 +59,6 @@ public class SignUp_Page extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_sign_up__page, container, false);
+        return inflater.inflate(R.layout.fragment_signup, container, false);
     }
 }
