@@ -3,6 +3,7 @@ package com.example.getpet;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
+import androidx.navigation.Navigation;
 
 import android.view.LayoutInflater;
 import android.view.View;
@@ -13,8 +14,8 @@ import android.widget.TextView;
 
 import com.google.firebase.auth.FirebaseAuth;
 
-public class Login_Page extends Fragment implements View.OnClickListener {
-    EditText email, password;
+public class loginFragment extends Fragment implements View.OnClickListener {
+    EditText email, password, name;
     Button loginBtn, signupBtn;
     private FirebaseAuth mAuth;
     View view;
@@ -30,7 +31,8 @@ public class Login_Page extends Fragment implements View.OnClickListener {
                              Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.fragment_login, container, false);
 
-        email = view.findViewById(R.id.username);
+        name = view.findViewById(R.id.name);
+        email = view.findViewById(R.id.email);
         password = view.findViewById(R.id.password);
         loginBtn = view.findViewById(R.id.button_login);
         signupBtn = view.findViewById(R.id.singUp_btn);
@@ -44,9 +46,15 @@ public class Login_Page extends Fragment implements View.OnClickListener {
     public void onClick(View v) {
         switch(v.getId()) {
             case R.id.button_login:
+                signin();
                 break;
             case R.id.singUp_btn:
+                Navigation.findNavController(v).navigate(loginFragmentDirections.actionLoginFragmentToSignupFragment());
                 break;
         }
+    }
+
+    private void signin() {
+
     }
 }
