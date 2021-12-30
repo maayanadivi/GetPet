@@ -31,7 +31,7 @@
     </fragment>
     <fragment
         android:id="@+id/home_Page"
-        android:name="com.example.getpet.Home_Page"
+        android:name="com.example.getpet.homepage_Fragment"
         android:label="fragment_add_new_pet__page"
         tools:layout="@layout/fragment_add_new_pet__page" />
     <fragment
