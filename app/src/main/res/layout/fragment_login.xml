@@ -46,24 +46,6 @@
             app:layout_constraintTop_toBottomOf="@+id/imageView3" />
 
         <EditText
-            android:id="@+id/name"
-            android:layout_width="0dp"
-            android:layout_height="54dp"
-            android:layout_marginStart="50dp"
-            android:layout_marginTop="20dp"
-            android:layout_marginEnd="50dp"
-            android:background="#C0C0C0"
-            android:backgroundTint="#C0C0C0"
-            android:ems="10"
-            android:gravity="center"
-            android:hint="Name"
-            android:inputType="textPersonName"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.0"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/email" />
-
-        <EditText
             android:id="@+id/password"
             android:layout_width="0dp"
             android:layout_height="54dp"
@@ -79,7 +61,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="1.0"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/name" />
+            app:layout_constraintTop_toBottomOf="@+id/email" />
 
         <Button
             android:id="@+id/button_login"
@@ -103,13 +85,13 @@
             android:layout_marginBottom="10dp"
             android:text="Not registered? click here to register"
             android:textSize="16sp"
-            app:layout_constraintBottom_toTopOf="@+id/singUp_btn"
+            app:layout_constraintBottom_toTopOf="@+id/signUp_btn"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.496"
             app:layout_constraintStart_toStartOf="parent" />
 
         <Button
-            android:id="@+id/singUp_btn"
+            android:id="@+id/signUp_btn"
             android:layout_width="299dp"
             android:layout_height="59dp"
             android:layout_marginStart="50dp"
@@ -120,6 +102,18 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent" />
+
+        <ProgressBar
+            android:id="@+id/login_progress"
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:layout_centerInParent="true"
+            android:visibility="invisible"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

@@ -2,23 +2,33 @@ package com.example.getpet;
 
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.navigation.Navigation;
 
+import android.util.Log;
+import android.util.Patterns;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ProgressBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 
 public class loginFragment extends Fragment implements View.OnClickListener {
-    EditText email, password, name;
+    EditText email, password;
     Button loginBtn, signupBtn;
     private FirebaseAuth mAuth;
     View view;
+    ProgressBar progressBar;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -31,14 +41,17 @@ public class loginFragment extends Fragment implements View.OnClickListener {
                              Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.fragment_login, container, false);
 
-        name = view.findViewById(R.id.name);
         email = view.findViewById(R.id.email);
         password = view.findViewById(R.id.password);
+
         loginBtn = view.findViewById(R.id.button_login);
-        signupBtn = view.findViewById(R.id.singUp_btn);
+        signupBtn = view.findViewById(R.id.signUp_btn);
+
+        progressBar = view.findViewById(R.id.login_progress);
 
         loginBtn.setOnClickListener(this);
         signupBtn.setOnClickListener(this);
+
         return view;
     }
 
@@ -48,13 +61,46 @@ public class loginFragment extends Fragment implements View.OnClickListener {
             case R.id.button_login:
                 signin();
                 break;
-            case R.id.singUp_btn:
-                Navigation.findNavController(v).navigate(loginFragmentDirections.actionLoginFragmentToSignupFragment());
+            case R.id.signUp_btn:
+                Log.d("1", "asdas");
+                Navigation.findNavController(view).navigate(loginFragmentDirections.actionLoginFragmentToSignupFragment());
                 break;
         }
     }
 
     private void signin() {
+        String userEmail = email.getText().toString();
+        String userPassword = password.getText().toString();
 
+        if(userEmail.isEmpty()) {
+            email.setError("Required Field");
+            email.requestFocus();
+            return;
+        }
+        if(userPassword.isEmpty()) {
+            password.setError("Required Field");
+            email.requestFocus();
+            return;
+        }
+        if(!Patterns.EMAIL_ADDRESS.matcher(userEmail).matches()) {
+            email.setError("Email not valid");
+            email.requestFocus();
+            return;
+        }
+        progressBar.setVisibility(View.VISIBLE);
+
+        mAuth.signInWithEmailAndPassword(userEmail, userPassword)
+                .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+                    @Override
+                    public void onComplete(@NonNull Task<AuthResult> task) {
+
+                        if(task.isSuccessful()) {
+                            Navigation.findNavController(view).navigate(loginFragmentDirections.actionLoginFragmentToHomepageFragment());
+                        }else {
+                            Toast.makeText(getActivity(), "Login Failed, email/password is not valid.", Toast.LENGTH_LONG).show();
+                        }
+                            progressBar.setVisibility(View.GONE);
+                    }
+                });
     }
 }

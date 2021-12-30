@@ -27,7 +27,7 @@
             app:layout_constraintVertical_bias="0.0" />
 
         <EditText
-            android:id="@+id/email"
+            android:id="@+id/signup_email"
             android:layout_width="0dp"
             android:layout_height="54dp"
             android:layout_marginStart="50dp"
@@ -46,7 +46,7 @@
 
 
         <EditText
-            android:id="@+id/name"
+            android:id="@+id/signup_name"
             android:layout_width="0dp"
             android:layout_height="54dp"
             android:layout_marginStart="50dp"
@@ -61,10 +61,10 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/email" />
+            app:layout_constraintTop_toBottomOf="@+id/signup_email" />
 
         <EditText
-            android:id="@+id/password"
+            android:id="@+id/signup_password"
             android:layout_width="0dp"
             android:layout_height="54dp"
             android:layout_marginStart="50dp"
@@ -79,10 +79,10 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/name" />
+            app:layout_constraintTop_toBottomOf="@+id/signup_name" />
 
         <Button
-            android:id="@+id/button"
+            android:id="@+id/signup_up"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="50dp"
@@ -94,7 +94,7 @@
             android:textColor="#6D4C41"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/password" />
+            app:layout_constraintTop_toBottomOf="@+id/signup_password" />
 
         <TextView
             android:id="@+id/to_register"
@@ -103,13 +103,13 @@
             android:layout_marginBottom="10dp"
             android:text="Already have an account? Click here"
             android:textSize="16sp"
-            app:layout_constraintBottom_toTopOf="@+id/singUp_btn"
+            app:layout_constraintBottom_toTopOf="@+id/login_btn_up"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.496"
             app:layout_constraintStart_toStartOf="parent" />
 
         <Button
-            android:id="@+id/singUp_btn"
+            android:id="@+id/login_btn_up"
             android:layout_width="299dp"
             android:layout_height="59dp"
             android:layout_marginStart="50dp"
@@ -120,6 +120,17 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent" />
+        <ProgressBar
+            android:id="@+id/signup_progress"
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:layout_centerInParent="true"
+            android:visibility="invisible"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
