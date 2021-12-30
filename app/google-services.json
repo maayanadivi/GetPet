@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "539745395048",
+    "project_id": "getpet-e3570",
+    "storage_bucket": "getpet-e3570.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:539745395048:android:d7ffc26b24e7a5f2c8b6dd",
+        "android_client_info": {
+          "package_name": "com.example.getpet"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "539745395048-75eaeueanudg9klq78kb40dum746d686.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyA5dxcoc4GGViXU64wj0oKCONU4HVaOMMI"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "539745395048-75eaeueanudg9klq78kb40dum746d686.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
