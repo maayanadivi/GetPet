@@ -17,6 +17,7 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.getpet.Model.DbModel;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
@@ -26,14 +27,12 @@ import com.google.firebase.auth.FirebaseUser;
 public class loginFragment extends Fragment implements View.OnClickListener {
     EditText email, password;
     Button loginBtn, signupBtn;
-    private FirebaseAuth mAuth;
     View view;
     ProgressBar progressBar;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        mAuth = FirebaseAuth.getInstance();
     }
 
     @Override
@@ -89,18 +88,19 @@ public class loginFragment extends Fragment implements View.OnClickListener {
         }
         progressBar.setVisibility(View.VISIBLE);
 
-        mAuth.signInWithEmailAndPassword(userEmail, userPassword)
-                .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
-                    @Override
-                    public void onComplete(@NonNull Task<AuthResult> task) {
+        DbModel.dbIns.loginUser(userEmail, userPassword, new DbModel.LoginUserListener() {
+            @Override
+            public void onComplete(FirebaseUser user, Task<AuthResult> task) {
+                if(task.isSuccessful()) {
+                    Navigation.findNavController(view).navigate(loginFragmentDirections.actionLoginFragmentToHomepageFragment());
+                }else {
+                    Toast.makeText(getActivity(), "Login Failed, email/password is not valid.", Toast.LENGTH_LONG).show();
+                }
+                progressBar.setVisibility(View.GONE);
+            }
+        });
 
-                        if(task.isSuccessful()) {
-                            Navigation.findNavController(view).navigate(loginFragmentDirections.actionLoginFragmentToHomepageFragment());
-                        }else {
-                            Toast.makeText(getActivity(), "Login Failed, email/password is not valid.", Toast.LENGTH_LONG).show();
-                        }
-                            progressBar.setVisibility(View.GONE);
-                    }
-                });
     }
+
+
 }

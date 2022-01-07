@@ -29,11 +29,6 @@
             android:id="@+id/action_loginFragment_to_signupFragment"
             app:destination="@id/signupFragment" />
     </fragment>
-    <fragment
-        android:id="@+id/home_Page"
-        android:name="com.example.getpet.homepage_Fragment"
-        android:label="fragment_add_new_pet__page"
-        tools:layout="@layout/fragment_add_new_pet__page" />
 
     <fragment
         android:id="@+id/homepage_Fragment"
@@ -47,8 +42,8 @@
             android:id="@+id/action_homepage_Fragment_to_getDetails_Fragment"
             app:destination="@id/getDetails_Fragment" />
         <action
-            android:id="@+id/action_homepage_Fragment_to_home_Page"
-            app:destination="@id/home_Page" />
+            android:id="@+id/action_homepage_Fragment_to_addPost_Fragment"
+            app:destination="@id/addPost_Fragment" />
     </fragment>
     <fragment
         android:id="@+id/myProfile_Fragment"
@@ -62,8 +57,8 @@
             android:id="@+id/action_myProfile_Fragment_to_myPostFragment"
             app:destination="@id/myPostFragment" />
         <action
-            android:id="@+id/action_myProfile_Fragment_to_home_Page"
-            app:destination="@id/home_Page" />
+            android:id="@+id/action_myProfile_Fragment_to_addPost_Fragment"
+            app:destination="@id/addPost_Fragment" />
     </fragment>
     <fragment
         android:id="@+id/editPost_Fragment"
@@ -97,5 +92,17 @@
         <action
             android:id="@+id/action_myPostFragment_to_editPost_Fragment"
             app:destination="@id/editPost_Fragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/addPost_Fragment"
+        android:name="com.example.getpet.addPost_Fragment"
+        android:label="fragment_add_post_"
+        tools:layout="@layout/fragment_add_post_" >
+        <action
+            android:id="@+id/action_addPost_Fragment_to_myProfile_Fragment"
+            app:destination="@id/myProfile_Fragment" />
+        <action
+            android:id="@+id/action_addPost_Fragment_to_homepage_Fragment"
+            app:destination="@id/homepage_Fragment" />
     </fragment>
 </navigation>

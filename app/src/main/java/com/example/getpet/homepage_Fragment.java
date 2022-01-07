@@ -40,7 +40,7 @@ public class homepage_Fragment extends Fragment implements View.OnClickListener{
     public void onClick(View v) {
         switch(v.getId()) {
             case R.id.addPost_btn:
-                Navigation.findNavController(view).navigate(homepage_FragmentDirections.actionHomepageFragmentToHomePage());
+                Navigation.findNavController(view).navigate(homepage_FragmentDirections.actionHomepageFragmentToAddPostFragment());
                 break;
             case R.id.profile_btn:
                 Navigation.findNavController(view).navigate(homepage_FragmentDirections.actionHomepageFragmentToMyProfileFragment());

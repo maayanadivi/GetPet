@@ -1,11 +1,8 @@
 package com.example.getpet;
 
 import android.os.Bundle;
-
-import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.navigation.Navigation;
-
 import android.util.Patterns;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -14,25 +11,24 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ProgressBar;
 import android.widget.Toast;
-
-import com.google.android.gms.tasks.OnCompleteListener;
+import com.example.getpet.Model.DbModel;
 import com.google.android.gms.tasks.Task;
-import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.auth.FirebaseUser;
+
 
 
 public class SignupFragment extends Fragment implements View.OnClickListener {
     EditText email, password, name;
     Button loginBtn, signupBtn;
-    private FirebaseAuth mAuth;
     View view;
     ProgressBar progressBar;
+
+
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        mAuth = FirebaseAuth.getInstance();
     }
 
     @Override
@@ -94,26 +90,19 @@ public class SignupFragment extends Fragment implements View.OnClickListener {
         }
         progressBar.setVisibility(View.VISIBLE);
 
-
-        mAuth.createUserWithEmailAndPassword(userEmail, userPassword)
-                .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
-                    @Override
-                    public void onComplete(@NonNull Task<AuthResult> task) {
-                        User newUser = new User(userEmail,userName);
-                        FirebaseDatabase.getInstance().getReference("users").setValue(newUser)
-                                .addOnCompleteListener(task1 -> {
-                                    if(task1.isSuccessful()) {
-                                        Toast.makeText(getActivity(), "Sign-up success, email/password is not valid.", Toast.LENGTH_LONG).show();
-                                        FirebaseAuth.getInstance().getCurrentUser().sendEmailVerification();
-                                        Navigation.findNavController(view).navigate(SignupFragmentDirections.actionSignupFragmentToHomepageFragment());
-                                    } else {
-                                        Toast.makeText(getActivity(), "Sign-up Failed, email/password is not valid.", Toast.LENGTH_LONG).show();
-                                    }
-                                    progressBar.setVisibility(View.GONE);
-                                });
-                    }
-                });
+        DbModel.dbIns.registerUser(new User(userEmail, userName), userPassword, new DbModel.SignupUserListener() {
+            @Override
+            public void onComplete(FirebaseUser user, Task task) {
+                if(task.isSuccessful()) {
+                    Toast.makeText(getActivity(), "Sign-up success.", Toast.LENGTH_LONG).show();
+                    FirebaseAuth.getInstance().getCurrentUser().sendEmailVerification();
+                    Navigation.findNavController(view).navigate(SignupFragmentDirections.actionSignupFragmentToHomepageFragment());
+                } else {
+                    Toast.makeText(getActivity(), "Sign-up Failed, email/password is not valid.", Toast.LENGTH_LONG).show();
+                }
+                progressBar.setVisibility(View.GONE);
+            }
+        });
 
     }
-
 }
