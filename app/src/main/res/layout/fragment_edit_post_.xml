@@ -36,12 +36,12 @@
             android:text="Type:"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/imageButton">
+            app:layout_constraintTop_toBottomOf="@+id/takeImage">
 
         </EditText>
 
         <ImageButton
-            android:id="@+id/imageButton"
+            android:id="@+id/takeImage"
             android:layout_width="318dp"
             android:layout_height="292dp"
             android:layout_marginTop="10dp"

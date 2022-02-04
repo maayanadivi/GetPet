@@ -74,7 +74,7 @@
             android:backgroundTint="#C0C0C0"
             android:ems="10"
             android:gravity="center"
-            android:inputType="textPersonName"
+            android:inputType="textPassword"
             android:hint="Password"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.0"

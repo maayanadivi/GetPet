@@ -80,6 +80,7 @@
         <action
             android:id="@+id/action_getDetails_Fragment_to_homepage_Fragment"
             app:destination="@id/homepage_Fragment" />
+        <argument android:name="petId" />
     </fragment>
     <fragment
         android:id="@+id/myPostFragment"

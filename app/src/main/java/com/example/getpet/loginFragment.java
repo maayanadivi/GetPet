@@ -2,7 +2,6 @@ package com.example.getpet;
 
 import android.os.Bundle;
 
-import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.navigation.Navigation;
 
@@ -14,14 +13,11 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ProgressBar;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.getpet.Model.DbModel;
-import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
-import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
 public class loginFragment extends Fragment implements View.OnClickListener {
@@ -86,6 +82,7 @@ public class loginFragment extends Fragment implements View.OnClickListener {
             email.requestFocus();
             return;
         }
+
         progressBar.setVisibility(View.VISIBLE);
 
         DbModel.dbIns.loginUser(userEmail, userPassword, new DbModel.LoginUserListener() {
@@ -99,8 +96,5 @@ public class loginFragment extends Fragment implements View.OnClickListener {
                 progressBar.setVisibility(View.GONE);
             }
         });
-
     }
-
-
 }

@@ -1,4 +1,4 @@
-package com.example.getpet;
+package com.example.getpet.Model;
 
 public class User {
     String email,fullName;

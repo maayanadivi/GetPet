@@ -6,16 +6,19 @@ import android.util.Log;
 
 import androidx.annotation.NonNull;
 
-import com.example.getpet.User;
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FieldValue;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
+import com.google.firebase.storage.UploadTask;
 
 import java.io.ByteArrayOutputStream;
 import java.util.HashMap;
@@ -26,11 +29,10 @@ public class DbModel {
     private FirebaseAuth mAuth = FirebaseAuth.getInstance();
     private FirebaseFirestore db = FirebaseFirestore.getInstance();
 
-
-
     public interface LoginUserListener{
         void onComplete(FirebaseUser user, Task<AuthResult> task);
     }
+
     public void loginUser(String email, String password, LoginUserListener listener ) {
         mAuth.signInWithEmailAndPassword(email, password)
                 .addOnCompleteListener(task -> {
@@ -63,29 +65,65 @@ public class DbModel {
                 });
     }
 
-    public interface UploadImageListener{
-        void onComplete(FirebaseUser user, Task task);
+    public interface UploadPetListener{
+        void onComplete(String id, Task task);
     }
 
-    public void uploadImage(Bitmap bitmap, String name, UploadImageListener listener ) {
-        DatabaseReference storage = FirebaseDatabase.getInstance().getReference("Images");
+    public void uploadPet(Pets pets, Bitmap bitmap, UploadPetListener listener) {
+        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
 
-        DatabaseReference imageRef =   storage.child("productImg" + name + ".jpg");
+        Map<String, Object> dbPet = new HashMap<>();
+        dbPet.put("type", pets.getType());
+        dbPet.put("name_pet", pets.getPetName());
+        dbPet.put("area", pets.getArea());
+        dbPet.put("age", pets.getAge());
+        dbPet.put("phone", pets.getPhone());
 
-        ByteArrayOutputStream bytes = new ByteArrayOutputStream();
-        bitmap.compress(Bitmap.CompressFormat.JPEG, 100, bytes);
+        dbPet.put("timestamp", FieldValue.serverTimestamp());
 
-//        byte[] byteArr = bytes.toByteArray();
+        DocumentReference petDocRef = db.collection("pets").document();
 
-//        UploadTask uploadTask = imageRef.putBytes(data);
-//        uploadTask.addOnFailureListener(exception -> listener.onComplete(null))
-//                .addOnSuccessListener(taskSnapshot -> imageRef.getDownloadUrl()
-//                        .addOnSuccessListener(uri -> {
-//                            Uri downloadUrl = uri;
-//                            listener.onComplete(downloadUrl.toString());
-//                        }));
+        petDocRef.set(dbPet).addOnCompleteListener(new OnCompleteListener<Void>() {
+            @Override
+            public void onComplete(@NonNull Task<Void> task) {
+                DocumentReference userRef = db.collection("users").document(user.getUid());
+                userRef.update("pets", FieldValue.arrayUnion(petDocRef)).addOnSuccessListener(new OnSuccessListener<Void>() {
+                    @Override
+                    public void onSuccess(@NonNull Void unused) {
+                        FirebaseStorage storage = FirebaseStorage.getInstance();
 
+                        StorageReference storageRef = storage.getReference();
+                        StorageReference imageRef = storageRef.child("images/" + petDocRef.getId() + ".jpg");
 
+                        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+                        bitmap.compress(Bitmap.CompressFormat.JPEG, 100, baos);
+                        byte[] data = baos.toByteArray();
+
+                        UploadTask uploadTask = imageRef.putBytes(data);
+                        uploadTask.addOnSuccessListener(taskSnapshot -> imageRef.getDownloadUrl()
+                                .addOnSuccessListener(uri -> {
+                                    Uri downloadUrl = uri;
+                                    listener.onComplete( petDocRef.getId(), task);
+                                }));
+                    }
+                });
+            }
+        });
     }
 
+    public interface GetPetListener{
+        void onComplete(Task task, Pets pet);
+    }
+
+    public void getPet(String petId ,GetPetListener listener ){
+        db.collection("pets").document(petId).get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                DocumentSnapshot document = task.getResult();
+                if(document.exists()){
+                   Pets p= Pets.petFromJson(document.getData());
+                }
+            }
+        });
+    }
 }
