@@ -35,16 +35,11 @@ public class Model {
 
     public void reloadPetList() {
         petsListLoadingState.setValue(LoadingState.loading);
-        //1. get local last update
         Long localLastUpdate = Pets.getLocalLastUpdated();
-        Log.d("TAG","localLastUpdate: " + localLastUpdate);
-        //2. get all students record since local last update from firebase
+
         modelFirebase.getAllPets(localLastUpdate,(list)->{
             MyApplication.executorService.execute(()->{
-                //3. update local last update date
-                //4. add new records to the local db
                 Long lLastUpdate = new Long(0);
-                Log.d("TAG", "FB returned " + list.size());
                 for(Pets pet : list){
                     if(!pet.isDeleted()) {
                         AppLocalDB.db.petsDao().insertAll(pet);
@@ -58,7 +53,6 @@ public class Model {
                 }
                 Pets.setLocalLastUpdated(lLastUpdate);
 
-                //5. return all records to the caller
                 List<Pets> stList = AppLocalDB.db.petsDao().getAll();
                 petsList.postValue(stList);
                 petsListLoadingState.postValue(LoadingState.loaded);

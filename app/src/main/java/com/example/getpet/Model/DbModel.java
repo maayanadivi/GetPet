@@ -151,7 +151,7 @@ public class DbModel {
                 if(task.isSuccessful()){
                     for (QueryDocumentSnapshot doc: task.getResult()){
                         Pets p = Pets.petFromJson(doc.getData());
-                        Log.d("PET", p.petName);
+                        Log.d("PET", p.getPetName());
                         if (p != null) {
                             petsList.add(p);
                         }

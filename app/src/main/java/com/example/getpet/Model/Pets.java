@@ -24,8 +24,8 @@ public class Pets implements Parcelable {
     private String type, petName, area, age, phone, img;
     private boolean isDeleted;
     private Long lastUpdated = new Long(0);
-    public final static String LAST_UPDATED = "LAST_UPDATED";
 
+    public final static String LAST_UPDATED = "LAST_UPDATED";
     final static String ID = "id";
     final static String AREA = "area";
     final static String NAME_PET = "name_pet";
@@ -65,10 +65,10 @@ public class Pets implements Parcelable {
         return phone;
     }
 
-    public Uri getImage(){return image;}
+    public String getImage(){return img;}
 
-    public void setImage(Uri image) {
-        this.image = image;
+    public void setImage(String image) {
+        this.img = image;
     }
 
     public void setType(String type) {
@@ -143,6 +143,11 @@ public class Pets implements Parcelable {
     };
 
     @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
     public void writeToParcel(Parcel parcel, int i) {
         parcel.writeString(id);
         parcel.writeString(type);
@@ -157,6 +162,23 @@ public class Pets implements Parcelable {
         } else {
             parcel.writeByte((byte) 1);
             parcel.writeLong(lastUpdated);
+        }
+    }
+
+    protected Pets(Parcel in) {
+        id = in.readString();
+        type = in.readString();
+        petName = in.readString();
+        area = in.readString();
+        age = in.readString();
+        phone = in.readString();
+        img = in.readString();
+
+        isDeleted = in.readByte() != 0;
+        if (in.readByte() == 0) {
+            lastUpdated = null;
+        } else {
+            lastUpdated = in.readLong();
         }
     }
 
