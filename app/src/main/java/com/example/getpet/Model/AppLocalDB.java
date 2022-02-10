@@ -8,7 +8,7 @@ import com.example.getpet.MyApplication;
 
 @Database(entities = {Pets.class}, version = 4)
 abstract class AppLocalDbRepository extends RoomDatabase {
-    public abstract PetsDao studentDao();
+    public abstract PetsDao petsDao();
 }
 
 public class AppLocalDB {

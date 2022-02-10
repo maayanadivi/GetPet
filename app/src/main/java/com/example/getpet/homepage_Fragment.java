@@ -5,8 +5,10 @@ import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.Navigation;
+import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
@@ -27,6 +29,8 @@ import android.widget.TextView;
 import com.example.getpet.Model.Model;
 import com.example.getpet.Model.Pets;
 import com.squareup.picasso.Picasso;
+
+import java.util.List;
 
 
 public class homepage_Fragment extends Fragment implements View.OnClickListener{
@@ -52,14 +56,24 @@ public class homepage_Fragment extends Fragment implements View.OnClickListener{
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.fragment_homepage_, container, false);
-
         RecyclerView list = view.findViewById(R.id.petlist_list_rv);
-        list.setHasFixedSize(true);
-
-        list.setLayoutManager(new LinearLayoutManager(getContext()));
 
         adapter = new MyAdapter();
         list.setAdapter(adapter);
+        list.setHasFixedSize(true);
+        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext());
+
+        list.setLayoutManager(linearLayoutManager);
+        DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(list.getContext(), linearLayoutManager.getOrientation());
+        list.addItemDecoration(dividerItemDecoration);
+        setHasOptionsMenu(true);
+
+        viewModel.getData().observe(getViewLifecycleOwner(), new Observer<List<Pets>>() {
+            @Override
+            public void onChanged(List<Pets> posts) {
+                adapter.notifyDataSetChanged();
+            }
+        });
 
         adapter.setOnItemClickListener(new OnItemClickListener() {
             @Override
@@ -75,21 +89,23 @@ public class homepage_Fragment extends Fragment implements View.OnClickListener{
         swipeRefresh.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
+                swipeRefresh.setRefreshing(true);
                 Model.instance.reloadPetList();
+                adapter.notifyDataSetChanged();
+                swipeRefresh.setRefreshing(false);
             }
         });
 
         setHasOptionsMenu(true);
-//        if (viewModel.getData() == null ) {refreshData();};
 
         viewModel.getData().observe(getViewLifecycleOwner(), (studentsList)->{
             adapter.notifyDataSetChanged();
         });
-
         swipeRefresh.setRefreshing(Model.instance.getStudentListLoadingState().getValue() == Model.LoadingState.loading);
         Model.instance.getStudentListLoadingState().observe(getViewLifecycleOwner(), loadingState -> {
             swipeRefresh.setRefreshing(loadingState == Model.LoadingState.loading);
         });
+
         return view;
     }
 

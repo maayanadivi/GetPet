@@ -3,6 +3,8 @@ package com.example.getpet.Model;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.net.Uri;
+import android.os.Parcel;
+import android.os.Parcelable;
 import android.util.Log;
 
 import androidx.annotation.NonNull;
@@ -15,15 +17,14 @@ import com.google.firebase.Timestamp;
 import java.util.Map;
 
 @Entity
-public class Pets {
+public class Pets implements Parcelable {
     @PrimaryKey
     @NonNull
-    String id = "";
-    String type, petName, area, age, phone;
-    Uri image;
+    private String id = "";
+    private String type, petName, area, age, phone, img;
+    private boolean isDeleted;
+    private Long lastUpdated = new Long(0);
     public final static String LAST_UPDATED = "LAST_UPDATED";
-
-    Long lastUpdated = new Long(0);
 
     final static String ID = "id";
     final static String AREA = "area";
@@ -32,7 +33,6 @@ public class Pets {
     final static String TYPE = "type";
     final static String AGE = "age";
     final static String TIME = "timestamp";
-
 
     public Pets(){}
 
@@ -83,6 +83,14 @@ public class Pets {
 
     public void setPhone(String phone) { this.phone = phone; }
 
+    public boolean isDeleted() {
+        return isDeleted;
+    }
+
+    public void setDeleted(boolean deleted) {
+        isDeleted = deleted;
+    }
+
     public void setLastUpdated(Long lastUpdated) {
         this.lastUpdated = lastUpdated;
     }
@@ -121,4 +129,35 @@ public class Pets {
     public Long getLastUpdated() {
         return lastUpdated;
     }
+
+    public static final Creator<Pets> CREATOR = new Creator<Pets>() {
+        @Override
+        public Pets createFromParcel(Parcel in) {
+            return new Pets(in);
+        }
+
+        @Override
+        public Pets[] newArray(int size) {
+            return new Pets[size];
+        }
+    };
+
+    @Override
+    public void writeToParcel(Parcel parcel, int i) {
+        parcel.writeString(id);
+        parcel.writeString(type);
+        parcel.writeString(petName);
+        parcel.writeString(area);
+        parcel.writeString(age);
+        parcel.writeString(phone);
+        parcel.writeString(img);
+        parcel.writeByte((byte) (isDeleted ? 1 : 0));
+        if (lastUpdated == null) {
+            parcel.writeByte((byte) 0);
+        } else {
+            parcel.writeByte((byte) 1);
+            parcel.writeLong(lastUpdated);
+        }
+    }
+
 }

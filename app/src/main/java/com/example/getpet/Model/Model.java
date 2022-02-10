@@ -18,7 +18,6 @@ public class Model {
         reloadPetList();
     }
 
-
     public enum LoadingState{
         loading,
         loaded
@@ -46,16 +45,21 @@ public class Model {
                 //4. add new records to the local db
                 Long lLastUpdate = new Long(0);
                 Log.d("TAG", "FB returned " + list.size());
-                for(Pets s : list){
-                    AppLocalDB.db.studentDao().insertAll(s);
-                    if (s.getLastUpdated() > lLastUpdate){
-                        lLastUpdate = s.getLastUpdated();
+                for(Pets pet : list){
+                    if(!pet.isDeleted()) {
+                        AppLocalDB.db.petsDao().insertAll(pet);
+                    }
+                    else {
+                        AppLocalDB.db.petsDao().delete(pet);
+                    }
+                    if (pet.getLastUpdated() > lLastUpdate){
+                        lLastUpdate = pet.getLastUpdated();
                     }
                 }
                 Pets.setLocalLastUpdated(lLastUpdate);
 
                 //5. return all records to the caller
-                List<Pets> stList = AppLocalDB.db.studentDao().getAll();
+                List<Pets> stList = AppLocalDB.db.petsDao().getAll();
                 petsList.postValue(stList);
                 petsListLoadingState.postValue(LoadingState.loaded);
             });
