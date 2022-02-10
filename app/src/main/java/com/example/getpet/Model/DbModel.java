@@ -157,8 +157,7 @@ public class DbModel {
                             petsList.add(p);
                         }
                     }
-                }else {
-
+                } else {
                 }
                 listener.onComplete(petsList);
             }
