@@ -116,7 +116,7 @@ public class addPost_Fragment extends Fragment implements View.OnClickListener{
 
        progressBar.setVisibility(View.VISIBLE);
 
-       Pets pet = new Pets(typeInput,petNameInput,areaInput,ageInput,phoneInput);
+       Pets pet = new Pets(typeInput,petNameInput,areaInput,ageInput,phoneInput, "123");
 
        DbModel.dbIns.uploadPet(pet, bitmap, new DbModel.UploadPetListener() {
            @Override

@@ -3,6 +3,8 @@ package com.example.getpet;
 import android.os.Bundle;
 import androidx.fragment.app.Fragment;
 import androidx.navigation.Navigation;
+
+import android.util.Log;
 import android.util.Patterns;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -94,6 +96,7 @@ public class SignupFragment extends Fragment implements View.OnClickListener {
         DbModel.dbIns.registerUser(new User(userEmail, userName), userPassword, new DbModel.SignupUserListener() {
             @Override
             public void onComplete(FirebaseUser user, Task task) {
+                Log.d("err", task.toString());
                 if(task.isSuccessful()) {
                     Toast.makeText(getActivity(), "Sign-up success.", Toast.LENGTH_LONG).show();
                     FirebaseAuth.getInstance().getCurrentUser().sendEmailVerification();

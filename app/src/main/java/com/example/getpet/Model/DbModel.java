@@ -5,10 +5,14 @@ import android.net.Uri;
 import android.util.Log;
 
 import androidx.annotation.NonNull;
+import androidx.lifecycle.LiveData;
+import androidx.lifecycle.MutableLiveData;
 
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.Timestamp;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -16,12 +20,16 @@ import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FieldValue;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
+import com.google.firebase.firestore.QuerySnapshot;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 
 import java.io.ByteArrayOutputStream;
 import java.util.HashMap;
+import java.util.LinkedList;
+import java.util.List;
 import java.util.Map;
 
 public class DbModel {
@@ -29,7 +37,9 @@ public class DbModel {
     private FirebaseAuth mAuth = FirebaseAuth.getInstance();
     private FirebaseFirestore db = FirebaseFirestore.getInstance();
 
-    public interface LoginUserListener{
+    MutableLiveData<List<Pets>> petsList = new MutableLiveData<>();
+
+    public interface LoginUserListener {
         void onComplete(FirebaseUser user, Task<AuthResult> task);
     }
 
@@ -123,6 +133,38 @@ public class DbModel {
                 if(document.exists()){
                    Pets p= Pets.petFromJson(document.getData());
                 }
+            }
+        });
+    }
+
+    public interface GetAllPetsListener{
+        void onComplete(List<Pets> data);
+    }
+
+    public void getAllPets(Long since, GetAllPetsListener listener) {
+        db.collection("pets")
+                .whereGreaterThanOrEqualTo(Pets.LAST_UPDATED,new Timestamp(since, 0))
+                .get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                LinkedList<Pets> petsList = new LinkedList<Pets>();
+                if(task.isSuccessful()){
+                    for (QueryDocumentSnapshot doc: task.getResult()){
+                        Pets p = Pets.petFromJson(doc.getData());
+                        Log.d("PET", p.petName);
+                        if (p != null) {
+                            petsList.add(p);
+                        }
+                    }
+                }else{
+
+                }
+                listener.onComplete(petsList);
+            }
+        }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+                listener.onComplete(null);
             }
         });
     }
