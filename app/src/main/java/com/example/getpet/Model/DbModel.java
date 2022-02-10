@@ -8,6 +8,7 @@ import androidx.annotation.NonNull;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 
+import com.example.getpet.Model.interfaces.UploadImageListener;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -156,7 +157,7 @@ public class DbModel {
                             petsList.add(p);
                         }
                     }
-                }else{
+                }else {
 
                 }
                 listener.onComplete(petsList);
@@ -168,4 +169,32 @@ public class DbModel {
             }
         });
     }
+
+    public void uploadImage(Bitmap bitmap, String id_key, final UploadImageListener listener)  {
+        FirebaseStorage storage = FirebaseStorage.getInstance();
+        final StorageReference imageRef;
+        imageRef = storage.getReference().child(Constants.MODEL_FIRE_BASE_IMAGE_COLLECTION).child(id_key);
+        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+
+        bitmap.compress(Bitmap.CompressFormat.JPEG,100,baos);
+        byte[] data= baos.toByteArray();
+        UploadTask uploadTask=imageRef.putBytes(data);
+        uploadTask.addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+                listener.onComplete(null);
+            }
+        }).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+            @Override
+            public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                imageRef.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+                    @Override
+                    public void onSuccess(Uri uri) {
+                        listener.onComplete(uri.toString());
+                    }
+                });
+            }
+        });
+    }
+
 }
