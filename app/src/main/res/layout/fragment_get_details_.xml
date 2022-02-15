@@ -11,7 +11,8 @@
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        >
 
         <ImageView
             android:id="@+id/addPost_btn"
@@ -20,72 +21,76 @@
             android:src="@drawable/page"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="1.0"
+            app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="1.0" />
+            app:layout_constraintVertical_bias="0.0" />
 
-        <EditText
-            android:id="@+id/type"
+        <TextView
+            android:id="@+id/get_details_type"
             android:layout_width="316dp"
             android:layout_height="wrap_content"
             android:layout_alignParentStart="true"
             android:layout_alignParentEnd="true"
             android:layout_alignParentBottom="true"
             android:inputType="text"
+            android:textSize="30sp"
             android:text="Type:"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/petImage">
+            app:layout_constraintTop_toBottomOf="@+id/get_details_petImage">
 
-        </EditText>
+        </TextView>
 
         <ImageView
-            android:id="@+id/petImage"
-            android:layout_width="318dp"
-            android:layout_height="292dp"
+            android:id="@+id/get_details_petImage"
+            android:layout_width="300dp"
+            android:layout_height="300dp"
             android:layout_marginTop="10dp"
             android:src="@drawable/addp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/text_EditPost" />
 
-        <EditText
-            android:id="@+id/Name"
+        <TextView
+            android:id="@+id/get_details_name"
             android:layout_width="316dp"
             android:layout_height="wrap_content"
             android:layout_alignParentStart="true"
             android:layout_alignParentEnd="true"
             android:layout_alignParentBottom="true"
             android:inputType="text"
+            android:textSize="30sp"
             android:text="Name:"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.505"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/type">
+            app:layout_constraintTop_toBottomOf="@+id/get_details_type">
 
-        </EditText>
+        </TextView>
 
-        <EditText
-            android:id="@+id/age"
+        <TextView
+            android:id="@+id/get_details_age"
             android:layout_width="316dp"
             android:layout_height="wrap_content"
             android:layout_alignParentStart="true"
             android:layout_alignParentEnd="true"
             android:layout_alignParentBottom="true"
             android:inputType="number"
+            android:textSize="30sp"
             android:text="Age:"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.494"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/area">
+            app:layout_constraintTop_toBottomOf="@+id/get_details_area">
 
-        </EditText>
+        </TextView>
 
-        <EditText
-            android:id="@+id/contact"
+        <TextView
+            android:id="@+id/get_details_phone"
             android:layout_width="264dp"
             android:layout_height="46dp"
+            android:textSize="30sp"
             android:layout_alignParentStart="true"
             android:layout_alignParentEnd="true"
             android:layout_alignParentBottom="true"
@@ -94,13 +99,14 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.326"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/age">
+            app:layout_constraintTop_toBottomOf="@+id/get_details_age">
 
-        </EditText>
+        </TextView>
 
-        <EditText
-            android:id="@+id/area"
+        <TextView
+            android:id="@+id/get_details_area"
             android:layout_width="316dp"
+            android:textSize="30sp"
             android:layout_height="wrap_content"
             android:layout_alignParentStart="true"
             android:layout_alignParentEnd="true"
@@ -110,9 +116,9 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.505"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/Name">
+            app:layout_constraintTop_toBottomOf="@+id/get_details_name">
 
-        </EditText>
+        </TextView>
 
         <ImageButton
             android:id="@+id/back_btn"
@@ -147,8 +153,7 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.0"
-            app:layout_constraintStart_toStartOf="@+id/contact" />
-
+            />
         <TextView
             android:id="@+id/text_EditPost"
             android:layout_width="wrap_content"

@@ -1,6 +1,7 @@
 package com.example.getpet;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -24,62 +25,49 @@ public class getDetails_Fragment extends Fragment implements View.OnClickListene
     ImageButton back ,toProfile;
     View view;
     Button call;
-    String petId;
-    Pets curPet;
+    Pets pet;
     ProgressBar progressBar;
     ImageView petImg;
     TextView typeText, nameText, areaText, ageText, phoneText;
 
-
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        petId = getDetails_FragmentArgs.fromBundle(getArguments()).getPetId();
-        curPet = new Pets();
+        pet = getDetails_FragmentArgs.fromBundle(getArguments()).getPet();
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
         view = inflater.inflate(R.layout.fragment_get_details_, container, false);
 
         back = view.findViewById(R.id.back_btn);
         toProfile = view.findViewById(R.id.profile_btn);
         call = view.findViewById(R.id.call_btn);
 
-        petImg = view.findViewById(R.id.petImage);
+        typeText = view.findViewById(R.id.get_details_type);
+        nameText = view.findViewById(R.id.get_details_name);
+        areaText = view.findViewById(R.id.get_details_area);
+        ageText = view.findViewById(R.id.get_details_age);
+        phoneText = view.findViewById(R.id.get_details_phone);
+        petImg = view.findViewById(R.id.get_details_petImage);
+
         progressBar = view.findViewById(R.id.getDetails_progress);
-        progressBar.setVisibility(View.VISIBLE);
 
         toProfile.setOnClickListener(this);
         back.setOnClickListener(this);
         call.setOnClickListener(this);
 
-        if(petId != null) {
-            DbModel.dbIns.getPet(petId, new DbModel.GetPetListener() {
-                @Override
-                public void onComplete(Task task, Pets pet) {
-                    if(task.isSuccessful()) {
-                        curPet = pet;
+        typeText.setText("Type: " + pet.getType());
+        nameText.setText("Name: " + pet.getPetName());
+        areaText.setText("Area: " + pet.getArea());
+        ageText.setText("Age: " + pet.getAge());
+        phoneText.setText("Phone: " + pet.getPhone());
 
-                        progressBar.setVisibility(View.INVISIBLE);
+        petImg.setImageResource(R.drawable.poodel);
 
-                        typeText.setText(curPet.getType());
-                        nameText.setText(curPet.getPetName());
-                        areaText.setText(curPet.getArea());
-                        ageText.setText(curPet.getAge());
-                        phoneText.setText(curPet.getPhone());
-
-                        String url = curPet.getImage().toString();
-                        if(!url.isEmpty()) {
-                            Picasso.get().load(url).into(petImg);
-                        }
-                    }else{
-                        // set error.
-                    }
-                }
-            });
+        if(pet.getImg() != null) {
+            Picasso.get().load(pet.getImg()).into(petImg);
         }
         return view;
     }

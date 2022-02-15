@@ -93,19 +93,16 @@ public class SignupFragment extends Fragment implements View.OnClickListener {
         }
         progressBar.setVisibility(View.VISIBLE);
 
-        DbModel.dbIns.registerUser(new User(userEmail, userName), userPassword, new DbModel.SignupUserListener() {
-            @Override
-            public void onComplete(FirebaseUser user, Task task) {
-                Log.d("err", task.toString());
-                if(task.isSuccessful()) {
-                    Toast.makeText(getActivity(), "Sign-up success.", Toast.LENGTH_LONG).show();
-                    FirebaseAuth.getInstance().getCurrentUser().sendEmailVerification();
-                    Navigation.findNavController(view).navigate(SignupFragmentDirections.actionSignupFragmentToHomepageFragment());
-                } else {
-                    Toast.makeText(getActivity(), "Sign-up Failed, email/password is not valid.", Toast.LENGTH_LONG).show();
-                }
-                progressBar.setVisibility(View.GONE);
+        DbModel.dbIns.registerUser(new User(userEmail, userName), userPassword, (user, task) -> {
+            Log.d("task", task.toString());
+            if(task.isSuccessful()) {
+                Toast.makeText(getActivity(), "Sign-up success.", Toast.LENGTH_LONG).show();
+                FirebaseAuth.getInstance().getCurrentUser().sendEmailVerification();
+                Navigation.findNavController(view).navigate(SignupFragmentDirections.actionSignupFragmentToLoginFragment());
+            } else {
+                Toast.makeText(getActivity(), "Sign-up Failed, email/password is not valid.", Toast.LENGTH_LONG).show();
             }
+            progressBar.setVisibility(View.GONE);
         });
 
     }

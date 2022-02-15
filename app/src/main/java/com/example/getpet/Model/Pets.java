@@ -2,19 +2,23 @@ package com.example.getpet.Model;
 
 import android.content.Context;
 import android.content.SharedPreferences;
-import android.net.Uri;
 import android.os.Parcel;
 import android.os.Parcelable;
 import android.util.Log;
 
 import androidx.annotation.NonNull;
+import androidx.lifecycle.LiveData;
 import androidx.room.Entity;
 import androidx.room.PrimaryKey;
 
-import com.example.getpet.MyApplication;
 import com.google.firebase.Timestamp;
+import com.google.firebase.firestore.FieldValue;
 
+import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
+import com.example.getpet.MyApplication;
+
 
 @Entity
 public class Pets implements Parcelable {
@@ -25,25 +29,16 @@ public class Pets implements Parcelable {
     private boolean isDeleted;
     private Long lastUpdated = new Long(0);
 
-    public final static String LAST_UPDATED = "LAST_UPDATED";
-    final static String ID = "id";
-    final static String AREA = "area";
-    final static String NAME_PET = "name_pet";
-    final static String PHONE = "phone";
-    final static String TYPE = "type";
-    final static String AGE = "age";
-    final static String TIME = "timestamp";
-
     public Pets(){}
 
-    public Pets(String type,String petName,String area,String age,String phone, String id){
+    public Pets(String type,String petName,String area,String age,String phone){
         this.type = type;
         this.petName = petName;
         this.area = area;
         this.age = age;
         this.phone = phone;
-        this.id = id;
     }
+
 
     public String getType() {
         return type;
@@ -65,15 +60,23 @@ public class Pets implements Parcelable {
         return phone;
     }
 
-    public String getImage(){return img;}
+    public String getImg(){
+        return img;
+    }
 
-    public void setImage(String image) {
+    public String getId() {
+        return id;
+    }
+
+    public void setImg(String image) {
         this.img = image;
     }
 
     public void setType(String type) {
         this.type = type;
     }
+
+    public void setId(String id) { this.id = id;}
 
     public void setPetName(String petName) { this.petName = petName; }
 
@@ -96,34 +99,34 @@ public class Pets implements Parcelable {
     }
 
     static Pets petFromJson(Map<String,Object> json){
-
-        String name = (String) json.get("name");
+        String name = (String) json.get("name_pet");
         String type = (String) json.get("type");
         String area = (String) json.get("area");
         String age = (String) json.get("age");
         String phone = (String) json.get("phone");
-        String id = (String) json.get("id");
+        String img = (String) json.get("img");
 
+        Pets pet = new Pets(type,name,area,age,phone);
+        pet.setImg(img);
 
-        Pets pet = new Pets(type,name,area,age,phone, id);
-        Timestamp ts = (Timestamp)json.get(LAST_UPDATED);
+        Timestamp ts = (Timestamp)json.get(Constants.LAST_UPDATED);
         pet.setLastUpdated(new Long(ts.getSeconds()));
 
         return pet;
     }
 
     static Long getLocalLastUpdated(){
-        Long localLastUpdate = MyApplication.getContext().getSharedPreferences("TAG", Context.MODE_PRIVATE)
-                .getLong("STUDENTS_LAST_UPDATE",0);
+        Long localLastUpdate = MyApplication.getContext()
+                .getSharedPreferences("TAG", Context.MODE_PRIVATE)
+                .getLong("POSTS_LAST_UPDATE",0);
         return localLastUpdate;
     }
 
     static void setLocalLastUpdated(Long date){
         SharedPreferences.Editor editor = MyApplication.getContext()
                 .getSharedPreferences("TAG", Context.MODE_PRIVATE).edit();
-        editor.putLong("STUDENTS_LAST_UPDATE",date);
+        editor.putLong("POSTS_LAST_UPDATE",date);
         editor.commit();
-        Log.d("TAG", "new lud " + date);
     }
 
     public Long getLastUpdated() {

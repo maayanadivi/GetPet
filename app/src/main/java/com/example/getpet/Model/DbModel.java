@@ -2,13 +2,13 @@ package com.example.getpet.Model;
 
 import android.graphics.Bitmap;
 import android.net.Uri;
+import android.net.wifi.WifiManager;
 import android.util.Log;
 
 import androidx.annotation.NonNull;
-import androidx.lifecycle.LiveData;
-import androidx.lifecycle.MutableLiveData;
 
 import com.example.getpet.Model.interfaces.UploadImageListener;
+import com.example.getpet.Model.interfaces.UploadPetListener;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -37,8 +37,6 @@ public class DbModel {
     public static final DbModel dbIns = new DbModel();
     private FirebaseAuth mAuth = FirebaseAuth.getInstance();
     private FirebaseFirestore db = FirebaseFirestore.getInstance();
-
-    MutableLiveData<List<Pets>> petsList = new MutableLiveData<>();
 
     public interface LoginUserListener {
         void onComplete(FirebaseUser user, Task<AuthResult> task);
@@ -76,22 +74,9 @@ public class DbModel {
                 });
     }
 
-    public interface UploadPetListener{
-        void onComplete(String id, Task task);
-    }
-
     public void uploadPet(Pets pets, Bitmap bitmap, UploadPetListener listener) {
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
-
         Map<String, Object> dbPet = new HashMap<>();
-        dbPet.put("type", pets.getType());
-        dbPet.put("name_pet", pets.getPetName());
-        dbPet.put("area", pets.getArea());
-        dbPet.put("age", pets.getAge());
-        dbPet.put("phone", pets.getPhone());
-
-        dbPet.put("timestamp", FieldValue.serverTimestamp());
-
         DocumentReference petDocRef = db.collection("pets").document();
 
         petDocRef.set(dbPet).addOnCompleteListener(new OnCompleteListener<Void>() {
@@ -102,20 +87,30 @@ public class DbModel {
                     @Override
                     public void onSuccess(@NonNull Void unused) {
                         FirebaseStorage storage = FirebaseStorage.getInstance();
-
-                        StorageReference storageRef = storage.getReference();
-                        StorageReference imageRef = storageRef.child("images/" + petDocRef.getId() + ".jpg");
-
-                        ByteArrayOutputStream baos = new ByteArrayOutputStream();
-                        bitmap.compress(Bitmap.CompressFormat.JPEG, 100, baos);
-                        byte[] data = baos.toByteArray();
-
-                        UploadTask uploadTask = imageRef.putBytes(data);
-                        uploadTask.addOnSuccessListener(taskSnapshot -> imageRef.getDownloadUrl()
-                                .addOnSuccessListener(uri -> {
-                                    Uri downloadUrl = uri;
-                                    listener.onComplete( petDocRef.getId(), task);
-                                }));
+                        uploadImage(bitmap, petDocRef.getId(), new UploadImageListener() {
+                            @Override
+                            public void onComplete(String url) {
+                                if (url != null) {
+                                    dbPet.put("type", pets.getType());
+                                    dbPet.put("name_pet", pets.getPetName());
+                                    dbPet.put("area", pets.getArea());
+                                    dbPet.put("age", pets.getAge());
+                                    dbPet.put("phone", pets.getPhone());
+                                    dbPet.put("timestamp", FieldValue.serverTimestamp());
+                                    dbPet.put("img", url);
+                                    petDocRef.set(dbPet).addOnCompleteListener(new OnCompleteListener<Void>() {
+                                        @Override
+                                        public void onComplete(@NonNull Task<Void> task) {
+                                            pets.setImg(url);
+                                            listener.onComplete(task, pets);
+                                        }
+                                    });
+                                } else {
+                                    listener.onComplete(task, new Pets());
+                                    // pet will not be initialized and we will know that there was error.
+                                }
+                            }
+                        });
                     }
                 });
             }
@@ -132,7 +127,8 @@ public class DbModel {
             public void onComplete(@NonNull Task<DocumentSnapshot> task) {
                 DocumentSnapshot document = task.getResult();
                 if(document.exists()){
-                   Pets p= Pets.petFromJson(document.getData());
+                   Pets p = Pets.petFromJson(document.getData());
+                   p.setId(document.getId());
                 }
             }
         });
@@ -144,41 +140,44 @@ public class DbModel {
 
     public void getAllPets(Long since, GetAllPetsListener listener) {
         db.collection("pets")
-                .whereGreaterThanOrEqualTo(Pets.LAST_UPDATED,new Timestamp(since, 0))
                 .get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
             @Override
             public void onComplete(@NonNull Task<QuerySnapshot> task) {
                 LinkedList<Pets> petsList = new LinkedList<Pets>();
-                if(task.isSuccessful()){
-                    for (QueryDocumentSnapshot doc: task.getResult()){
+                if(task.isSuccessful()) {
+                    for (QueryDocumentSnapshot doc: task.getResult()) {
                         Pets p = Pets.petFromJson(doc.getData());
-                        Log.d("PET", p.getPetName());
+                        p.setId(doc.getId());
+
                         if (p != null) {
                             petsList.add(p);
                         }
                     }
                 }else {
-
+                    Log.d("PET", "Not successfull - didn't get all pets");
                 }
                 listener.onComplete(petsList);
             }
         }).addOnFailureListener(new OnFailureListener() {
             @Override
             public void onFailure(@NonNull Exception e) {
+                Log.d("ERROR!", "Not successfullll - didn't get all pets");
                 listener.onComplete(null);
             }
         });
     }
 
     public void uploadImage(Bitmap bitmap, String id_key, final UploadImageListener listener)  {
+        ByteArrayOutputStream baos = new ByteArrayOutputStream();
         FirebaseStorage storage = FirebaseStorage.getInstance();
         final StorageReference imageRef;
-        imageRef = storage.getReference().child(Constants.MODEL_FIRE_BASE_IMAGE_COLLECTION).child(id_key);
-        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+        byte[] data = baos.toByteArray();
 
+        imageRef = storage.getReference().child(Constants.MODEL_FIRE_BASE_IMAGE_COLLECTION).child(id_key);
         bitmap.compress(Bitmap.CompressFormat.JPEG,100,baos);
-        byte[] data= baos.toByteArray();
+
         UploadTask uploadTask=imageRef.putBytes(data);
+
         uploadTask.addOnFailureListener(new OnFailureListener() {
             @Override
             public void onFailure(@NonNull Exception e) {

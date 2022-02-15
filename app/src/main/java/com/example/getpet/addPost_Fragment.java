@@ -21,6 +21,7 @@ import android.widget.Toast;
 import static android.app.Activity.RESULT_OK;
 import com.example.getpet.Model.DbModel;
 import com.example.getpet.Model.Pets;
+import com.example.getpet.Model.interfaces.UploadPetListener;
 import com.google.android.gms.tasks.Task;
 
 
@@ -116,13 +117,12 @@ public class addPost_Fragment extends Fragment implements View.OnClickListener{
 
        progressBar.setVisibility(View.VISIBLE);
 
-       Pets pet = new Pets(typeInput,petNameInput,areaInput,ageInput,phoneInput, "123");
+       Pets pet = new Pets(typeInput,petNameInput,areaInput,ageInput,phoneInput);
 
-       DbModel.dbIns.uploadPet(pet, bitmap, new DbModel.UploadPetListener() {
+       DbModel.dbIns.uploadPet(pet, bitmap, new UploadPetListener() {
            @Override
-           public void onComplete(String id, Task task) {
-
-               if(task.isSuccessful()) {
+           public void onComplete(Task task, Pets pet) {
+               if(pet.getImg() != null) {
                    Toast.makeText(getActivity(), "Upload success.", Toast.LENGTH_LONG).show();
                    Navigation.findNavController(view).navigateUp();
                } else {

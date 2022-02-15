@@ -24,6 +24,7 @@ import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.example.getpet.Model.Model;
@@ -34,11 +35,13 @@ import java.util.List;
 
 
 public class homepage_Fragment extends Fragment implements View.OnClickListener{
-    ImageButton addPost, toProfile;
-    View view;
     homepage_FragmentViewModel viewModel;
+    View view;
     SwipeRefreshLayout swipeRefresh;
     MyAdapter adapter;
+    ProgressBar progressBar;
+    RecyclerView list;
+    ImageButton addPost, toProfile;
 
 
     @Override
@@ -48,44 +51,20 @@ public class homepage_Fragment extends Fragment implements View.OnClickListener{
     }
 
     @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-    }
-
-    @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.fragment_homepage_, container, false);
-        RecyclerView list = view.findViewById(R.id.petlist_list_rv);
-
-        adapter = new MyAdapter();
-        list.setAdapter(adapter);
-        list.setHasFixedSize(true);
-        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext());
-
-        list.setLayoutManager(linearLayoutManager);
-        DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(list.getContext(), linearLayoutManager.getOrientation());
-        list.addItemDecoration(dividerItemDecoration);
-        setHasOptionsMenu(true);
-
-        viewModel.getData().observe(getViewLifecycleOwner(), new Observer<List<Pets>>() {
-            @Override
-            public void onChanged(List<Pets> posts) {
-                adapter.notifyDataSetChanged();
-            }
-        });
-
-        adapter.setOnItemClickListener(new OnItemClickListener() {
-            @Override
-            public void onItemClick(int position, View v) {
-                Pets pet = viewModel.getData().getValue().get(position);
-                Log.d("TAG","row was clicked " + position);
-//                homepage_FragmentDirections.ActionHomepageFragmentToGetDetailsFragment action = homepage_FragmentDirections.ActionHomepageFragmentToGetDetailsFragment(pet.getType());
-//                Navigation.findNavController(v).navigate(action);
-            }
-        });
-
+        list = view.findViewById(R.id.petlist_list_rv);
+        progressBar = view.findViewById(R.id.homepage_progress);
         swipeRefresh = view.findViewById(R.id.petlist_swipe_refresh);
+        addPost = view.findViewById((R.id.addPost_btn));
+        toProfile = view.findViewById(R.id.profile_btn);
+
+        addPost.setOnClickListener(this);
+        toProfile.setOnClickListener(this);
+
+        Log.d("IMG", "MAAAYAAN & ALICE");
+
         swipeRefresh.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
@@ -96,13 +75,44 @@ public class homepage_Fragment extends Fragment implements View.OnClickListener{
             }
         });
 
+        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext());
+        DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(list.getContext(), linearLayoutManager.getOrientation());
+        adapter = new MyAdapter();
+
+        list.setHasFixedSize(true);
+        list.setAdapter(adapter);
+        list.setLayoutManager(linearLayoutManager);
+        list.addItemDecoration(dividerItemDecoration);
+
         setHasOptionsMenu(true);
 
-        viewModel.getData().observe(getViewLifecycleOwner(), (studentsList)->{
-            adapter.notifyDataSetChanged();
+        viewModel.getData().observe(getViewLifecycleOwner(), new Observer<List<Pets>>() {
+            @Override
+            public void onChanged(List<Pets> posts) {
+                adapter.setFragment(homepage_Fragment.this);
+                adapter.setData(posts);
+                adapter.notifyDataSetChanged();
+                progressBar.setVisibility(View.GONE);
+            }
         });
-        swipeRefresh.setRefreshing(Model.instance.getStudentListLoadingState().getValue() == Model.LoadingState.loading);
-        Model.instance.getStudentListLoadingState().observe(getViewLifecycleOwner(), loadingState -> {
+
+        progressBar.setVisibility(View.VISIBLE);
+
+        adapter.setOnItemClickListener(new OnItemClickListener() {
+            @Override
+            public void onItemClick(int position, View v) {
+                Pets pet = viewModel.getData().getValue().get(position);
+                homepage_FragmentDirections.ActionHomepageFragmentToGetDetailsFragment action =
+                        homepage_FragmentDirections.actionHomepageFragmentToGetDetailsFragment(
+                                pet
+                        );
+                Navigation.findNavController(v).navigate(action);
+            }
+        });
+
+        swipeRefresh.setRefreshing(Model.instance.getPetsLoadingState().getValue() == Model.LoadingState.loading);
+
+        Model.instance.getPetsLoadingState().observe(getViewLifecycleOwner(), loadingState -> {
             swipeRefresh.setRefreshing(loadingState == Model.LoadingState.loading);
         });
 
@@ -112,16 +122,13 @@ public class homepage_Fragment extends Fragment implements View.OnClickListener{
     public void onClick(View v) {
         switch(v.getId()) {
             case R.id.addPost_btn:
+                Log.d("button","2323423");
                 Navigation.findNavController(view).navigate(homepage_FragmentDirections.actionHomepageFragmentToAddPostFragment());
                 break;
             case R.id.profile_btn:
                 Navigation.findNavController(view).navigate(homepage_FragmentDirections.actionHomepageFragmentToMyProfileFragment());
                 break;
         }
-    }
-
-    private void refreshData() {
-
     }
 
     @Override
@@ -140,7 +147,6 @@ public class homepage_Fragment extends Fragment implements View.OnClickListener{
             area = itemView.findViewById(R.id.list_row_area);
             type = itemView.findViewById(R.id.list_row_type);
             name = itemView.findViewById(R.id.list_row_name);
-            moreInfoBtn = itemView.findViewById(R.id.list_row_more);
             img = itemView.findViewById(R.id.list_row_avatar);
 
             itemView.setOnClickListener(new View.OnClickListener() {
@@ -158,11 +164,11 @@ public class homepage_Fragment extends Fragment implements View.OnClickListener{
             area.setText(pet.getArea());
             type.setText(pet.getType());
             name.setText(pet.getPetName());
-            String url = pet.getImage().toString();
+            String url = pet.getImg();
+
             if (url != null && !url.equals("")) {
                 Picasso.get()
                         .load(url)
-                        .placeholder(R.drawable.poodel)
                         .into(img);
             }
         }
@@ -172,8 +178,10 @@ public class homepage_Fragment extends Fragment implements View.OnClickListener{
         void onItemClick(int position, View v);
     }
     class MyAdapter extends RecyclerView.Adapter<MyViewHolder>{
-
         OnItemClickListener listener;
+        private List<Pets> data;
+        private Fragment fragment;
+
         public void setOnItemClickListener(OnItemClickListener listener){
             this.listener = listener;
         }
@@ -181,9 +189,17 @@ public class homepage_Fragment extends Fragment implements View.OnClickListener{
         @NonNull
         @Override
         public MyViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-            View view = getLayoutInflater().inflate(R.layout.fragment_homepage_,parent,false);
+            View view = getLayoutInflater().inflate(R.layout.fragment_pet__list__row,parent,false);
             MyViewHolder holder = new MyViewHolder(view,listener);
             return holder;
+        }
+
+        public void setData(List <Pets> data) {
+            this.data = data;
+        }
+
+        public void setFragment(Fragment fragment) {
+            this.fragment = fragment;
         }
 
         @Override

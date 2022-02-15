@@ -13,10 +13,10 @@ public interface PetsDao {
     List<Pets> getAll();
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    void insertAll(Pets... students);
+    void insertAll(Pets... pets);
 
     @Delete
-    void delete(Pets student);
+    void delete(Pets pets);
 
     @Query("SELECT * FROM Pets WHERE id=:id ")
     Pets getPet(String id);
