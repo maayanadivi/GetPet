@@ -10,6 +10,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
 
+import com.example.getpet.Model.User;
+
 public class myPostFragment extends Fragment implements View.OnClickListener{
 
     ImageButton delete, edit, back;
@@ -39,7 +41,7 @@ public class myPostFragment extends Fragment implements View.OnClickListener{
     public void onClick(View v) {
         switch(v.getId()) {
             case R.id.trush_btn:
-                Navigation.findNavController(view).navigate(myPostFragmentDirections.actionMyPostFragmentToMyProfileFragment());
+                Navigation.findNavController(view).navigate(myPostFragmentDirections.actionMyPostFragmentToMyProfileFragment(new User()));
                 break;
             case R.id.edit_btn:
                 Navigation.findNavController(view).navigate(myPostFragmentDirections.actionMyPostFragmentToEditPostFragment());

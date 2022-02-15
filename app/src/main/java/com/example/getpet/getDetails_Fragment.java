@@ -1,5 +1,7 @@
 package com.example.getpet;
 
+import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -17,11 +19,12 @@ import androidx.navigation.Navigation;
 
 import com.example.getpet.Model.DbModel;
 import com.example.getpet.Model.Pets;
+import com.example.getpet.Model.User;
 import com.google.android.gms.tasks.Task;
 import com.squareup.picasso.Picasso;
 
 
-public class getDetails_Fragment extends Fragment implements View.OnClickListener{
+public class getDetails_Fragment extends Fragment implements View.OnClickListener {
     ImageButton back ,toProfile;
     View view;
     Button call;
@@ -75,7 +78,7 @@ public class getDetails_Fragment extends Fragment implements View.OnClickListene
     public void onClick(View v) {
         switch(v.getId()) {
             case R.id.profile_btn:
-                Navigation.findNavController(view).navigate(getDetails_FragmentDirections.actionGetDetailsFragmentToMyProfileFragment());
+                Navigation.findNavController(view).navigate(getDetails_FragmentDirections.actionGetDetailsFragmentToMyProfileFragment(new User()));
                 break;
             case R.id.call_btn:
                 call();
@@ -87,6 +90,7 @@ public class getDetails_Fragment extends Fragment implements View.OnClickListene
     }
 
     public void call(){
+        startActivity(new Intent(Intent.ACTION_DIAL, Uri.fromParts("tel", pet.getPhone(), null)));
         Toast.makeText(getActivity(), "phone call", Toast.LENGTH_LONG).show();
     }
 }

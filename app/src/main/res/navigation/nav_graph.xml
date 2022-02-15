@@ -59,6 +59,9 @@
         <action
             android:id="@+id/action_myProfile_Fragment_to_addPost_Fragment"
             app:destination="@id/addPost_Fragment" />
+        <argument
+            android:name="user"
+            app:argType="com.example.getpet.Model.User" />
     </fragment>
     <fragment
         android:id="@+id/editPost_Fragment"

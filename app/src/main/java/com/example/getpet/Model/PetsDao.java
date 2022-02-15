@@ -1,5 +1,6 @@
 package com.example.getpet.Model;
 
+import androidx.lifecycle.LiveData;
 import androidx.room.Dao;
 import androidx.room.Delete;
 import androidx.room.Insert;
@@ -20,4 +21,7 @@ public interface PetsDao {
 
     @Query("SELECT * FROM Pets WHERE id=:id ")
     Pets getPet(String id);
+
+    @Query("SELECT * FROM Pets WHERE petName=:name ")
+    LiveData<List<Pets>> getPetByName(String name);
 }

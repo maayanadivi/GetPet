@@ -29,6 +29,9 @@ import android.widget.TextView;
 
 import com.example.getpet.Model.Model;
 import com.example.getpet.Model.Pets;
+import com.example.getpet.Model.Recycler.MyAdapter;
+import com.example.getpet.Model.User;
+import com.example.getpet.Model.interfaces.OnItemClickListener;
 import com.squareup.picasso.Picasso;
 
 import java.util.List;
@@ -63,8 +66,6 @@ public class homepage_Fragment extends Fragment implements View.OnClickListener{
         addPost.setOnClickListener(this);
         toProfile.setOnClickListener(this);
 
-        Log.d("IMG", "MAAAYAAN & ALICE");
-
         swipeRefresh.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
@@ -98,14 +99,12 @@ public class homepage_Fragment extends Fragment implements View.OnClickListener{
 
         progressBar.setVisibility(View.VISIBLE);
 
-        adapter.setOnItemClickListener(new OnItemClickListener() {
+        adapter.setOnItemClickListener(new com.example.getpet.Model.interfaces.OnItemClickListener() {
             @Override
             public void onItemClick(int position, View v) {
                 Pets pet = viewModel.getData().getValue().get(position);
                 homepage_FragmentDirections.ActionHomepageFragmentToGetDetailsFragment action =
-                        homepage_FragmentDirections.actionHomepageFragmentToGetDetailsFragment(
-                                pet
-                        );
+                        homepage_FragmentDirections.actionHomepageFragmentToGetDetailsFragment(pet);
                 Navigation.findNavController(v).navigate(action);
             }
         });
@@ -126,7 +125,7 @@ public class homepage_Fragment extends Fragment implements View.OnClickListener{
                 Navigation.findNavController(view).navigate(homepage_FragmentDirections.actionHomepageFragmentToAddPostFragment());
                 break;
             case R.id.profile_btn:
-                Navigation.findNavController(view).navigate(homepage_FragmentDirections.actionHomepageFragmentToMyProfileFragment());
+                Navigation.findNavController(view).navigate(homepage_FragmentDirections.actionHomepageFragmentToMyProfileFragment(new User()));
                 break;
         }
     }
@@ -137,81 +136,8 @@ public class homepage_Fragment extends Fragment implements View.OnClickListener{
         inflater.inflate(R.menu.pet_list ,menu);
     }
 
-    class MyViewHolder extends RecyclerView.ViewHolder{
-        TextView area, name, type;
-        ImageView img;
-        Button moreInfoBtn;
-
-        public MyViewHolder(@NonNull View itemView, OnItemClickListener listener) {
-            super(itemView);
-            area = itemView.findViewById(R.id.list_row_area);
-            type = itemView.findViewById(R.id.list_row_type);
-            name = itemView.findViewById(R.id.list_row_name);
-            img = itemView.findViewById(R.id.list_row_avatar);
-
-            itemView.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    int pos = getAdapterPosition();
-                    if (listener != null) {
-                        listener.onItemClick(pos,v);
-                    }
-                }
-            });
-        }
-
-        public void bind(Pets pet){
-            area.setText(pet.getArea());
-            type.setText(pet.getType());
-            name.setText(pet.getPetName());
-            String url = pet.getImg();
-
-            if (url != null && !url.equals("")) {
-                Picasso.get()
-                        .load(url)
-                        .into(img);
-            }
-        }
-    }
-
     interface OnItemClickListener{
         void onItemClick(int position, View v);
     }
-    class MyAdapter extends RecyclerView.Adapter<MyViewHolder>{
-        OnItemClickListener listener;
-        private List<Pets> data;
-        private Fragment fragment;
 
-        public void setOnItemClickListener(OnItemClickListener listener){
-            this.listener = listener;
-        }
-
-        @NonNull
-        @Override
-        public MyViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-            View view = getLayoutInflater().inflate(R.layout.fragment_pet__list__row,parent,false);
-            MyViewHolder holder = new MyViewHolder(view,listener);
-            return holder;
-        }
-
-        public void setData(List <Pets> data) {
-            this.data = data;
-        }
-
-        public void setFragment(Fragment fragment) {
-            this.fragment = fragment;
-        }
-
-        @Override
-        public void onBindViewHolder(@NonNull MyViewHolder holder, int position) {
-            Pets pet = viewModel.getData().getValue().get(position);
-            holder.bind(pet);
-        }
-
-        @Override
-        public int getItemCount() {
-            if (viewModel.getData().getValue() == null) return 0;
-            return viewModel.getData().getValue().size();
-        }
-    }
 }

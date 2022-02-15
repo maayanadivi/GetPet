@@ -104,7 +104,6 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent" />
-
         <ProgressBar
             android:id="@+id/login_progress"
             android:layout_width="60dp"
@@ -116,6 +115,7 @@
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
             />
+
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

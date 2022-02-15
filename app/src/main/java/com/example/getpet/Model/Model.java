@@ -71,7 +71,9 @@ public class Model {
         modelFirebase.uploadImage(bitmap,name,listener);
     }
 
-
+//    public LiveData<List<Pets>> getUserPetsByEmail(String email) {
+//        return AppLocalDB.db.userDao().getUserPetsByEmail(email);
+//    }
 
     public void addPet(Pets pet, Bitmap bitmap, UploadPetListener listener) {
         modelFirebase.uploadPet(pet, bitmap, new UploadPetListener() {

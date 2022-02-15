@@ -3,7 +3,7 @@
     package="com.example.getpet">
 
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
-
+    <uses-permission android:name="android.permision.CALL_PHONE" />
     <application
         android:name=".MyApplication"
         android:allowBackup="true"
