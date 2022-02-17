@@ -121,7 +121,7 @@ public class homepage_Fragment extends Fragment implements View.OnClickListener{
     public void onClick(View v) {
         switch(v.getId()) {
             case R.id.addPost_btn:
-                Log.d("button","2323423");
+                Log.d("button","232342356");
                 Navigation.findNavController(view).navigate(homepage_FragmentDirections.actionHomepageFragmentToAddPostFragment());
                 break;
             case R.id.profile_btn:
@@ -129,13 +129,11 @@ public class homepage_Fragment extends Fragment implements View.OnClickListener{
                 break;
         }
     }
-
     @Override
     public void onCreateOptionsMenu(@NonNull Menu menu, @NonNull MenuInflater inflater) {
         super.onCreateOptionsMenu(menu, inflater);
         inflater.inflate(R.menu.pet_list ,menu);
     }
-
     interface OnItemClickListener{
         void onItemClick(int position, View v);
     }

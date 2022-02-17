@@ -14,7 +14,6 @@ public class editPost_Fragment extends Fragment implements View.OnClickListener{
     Button save, cancel;
     View view;
 
-
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

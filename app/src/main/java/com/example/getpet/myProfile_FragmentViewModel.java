@@ -21,5 +21,6 @@ public class myProfile_FragmentViewModel extends ViewModel {
         this.user = user;
 
 //        this.data = Model.instance.getUserPetsByEmail(user.getEmail());
+        //
     }
 }

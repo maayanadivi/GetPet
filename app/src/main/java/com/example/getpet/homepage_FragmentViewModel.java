@@ -12,6 +12,7 @@ public class homepage_FragmentViewModel extends ViewModel {
 
     LiveData<List<Pets>> data = Model.instance.getAll();
 
+
     public LiveData<List<Pets>> getData() {
         return data;
     }

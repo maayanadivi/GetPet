@@ -153,15 +153,17 @@ public class DbModel {
                             petsList.add(p);
                         }
                     }
+
                 }else {
                     Log.d("PET", "Not successfull - didn't get all pets");
                 }
                 listener.onComplete(petsList);
             }
+
         }).addOnFailureListener(new OnFailureListener() {
             @Override
             public void onFailure(@NonNull Exception e) {
-                Log.d("ERROR!", "Not successfullll - didn't get all pets");
+                Log.d("ERROR!", "Not successfull - didn't get all pets");
                 listener.onComplete(null);
             }
         });

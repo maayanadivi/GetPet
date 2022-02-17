@@ -104,6 +104,5 @@ public class SignupFragment extends Fragment implements View.OnClickListener {
             }
             progressBar.setVisibility(View.GONE);
         });
-
     }
 }

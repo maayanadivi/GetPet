@@ -47,14 +47,12 @@ public class getDetails_Fragment extends Fragment implements View.OnClickListene
         back = view.findViewById(R.id.back_btn);
         toProfile = view.findViewById(R.id.profile_btn);
         call = view.findViewById(R.id.call_btn);
-
         typeText = view.findViewById(R.id.get_details_type);
         nameText = view.findViewById(R.id.get_details_name);
         areaText = view.findViewById(R.id.get_details_area);
         ageText = view.findViewById(R.id.get_details_age);
         phoneText = view.findViewById(R.id.get_details_phone);
         petImg = view.findViewById(R.id.get_details_petImage);
-
         progressBar = view.findViewById(R.id.getDetails_progress);
 
         toProfile.setOnClickListener(this);
