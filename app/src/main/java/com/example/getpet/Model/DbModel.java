@@ -55,6 +55,8 @@ public class DbModel {
     }
 
     public void registerUser(User user, String password, SignupUserListener listener) {
+        Log.d("w", user.getEmail());
+        Log.d("w", password);
         mAuth.createUserWithEmailAndPassword(user.getEmail(), password)
                 .addOnCompleteListener(task -> {
                     if(task.isSuccessful()) {
@@ -97,6 +99,7 @@ public class DbModel {
                                     dbPet.put("age", pets.getAge());
                                     dbPet.put("phone", pets.getPhone());
                                     dbPet.put("timestamp", FieldValue.serverTimestamp());
+                                    Log.d("IMG", url);
                                     dbPet.put("img", url);
                                     petDocRef.set(dbPet).addOnCompleteListener(new OnCompleteListener<Void>() {
                                         @Override
@@ -170,14 +173,14 @@ public class DbModel {
     }
 
     public void uploadImage(Bitmap bitmap, String id_key, final UploadImageListener listener)  {
-        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+
         FirebaseStorage storage = FirebaseStorage.getInstance();
         final StorageReference imageRef;
-        byte[] data = baos.toByteArray();
 
         imageRef = storage.getReference().child(Constants.MODEL_FIRE_BASE_IMAGE_COLLECTION).child(id_key);
+        ByteArrayOutputStream baos = new ByteArrayOutputStream();
         bitmap.compress(Bitmap.CompressFormat.JPEG,100,baos);
-
+        byte[] data = baos.toByteArray();
         UploadTask uploadTask=imageRef.putBytes(data);
 
         uploadTask.addOnFailureListener(new OnFailureListener() {

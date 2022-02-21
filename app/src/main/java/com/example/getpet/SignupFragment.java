@@ -67,9 +67,9 @@ public class SignupFragment extends Fragment implements View.OnClickListener {
     }
 
     private void signup() {
-        String userEmail = email.getText().toString();
-        String userPassword = password.getText().toString();
-        String userName = name.getText().toString();
+        String userEmail = email.getText().toString().trim();
+        String userPassword = password.getText().toString().trim();
+        String userName = name.getText().toString().trim();
 
         if(userEmail.isEmpty()) {
             email.setError("Required Field");
@@ -97,7 +97,7 @@ public class SignupFragment extends Fragment implements View.OnClickListener {
             Log.d("task", task.toString());
             if(task.isSuccessful()) {
                 Toast.makeText(getActivity(), "Sign-up success.", Toast.LENGTH_LONG).show();
-                FirebaseAuth.getInstance().getCurrentUser().sendEmailVerification();
+                //FirebaseAuth.getInstance().getCurrentUser().sendEmailVerification();
                 Navigation.findNavController(view).navigate(SignupFragmentDirections.actionSignupFragmentToLoginFragment());
             } else {
                 Toast.makeText(getActivity(), "Sign-up Failed, email/password is not valid.", Toast.LENGTH_LONG).show();

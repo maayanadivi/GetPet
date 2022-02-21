@@ -66,7 +66,7 @@ public class getDetails_Fragment extends Fragment implements View.OnClickListene
         phoneText.setText("Phone: " + pet.getPhone());
 
         petImg.setImageResource(R.drawable.poodel);
-
+        Log.d("",pet.getImg());
         if(pet.getImg() != null) {
             Picasso.get().load(pet.getImg()).into(petImg);
         }
