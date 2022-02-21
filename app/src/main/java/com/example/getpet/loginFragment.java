@@ -1,5 +1,7 @@
 package com.example.getpet;
 
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
@@ -48,6 +50,17 @@ public class loginFragment extends Fragment implements View.OnClickListener {
         loginBtn.setOnClickListener(this);
         signupBtn.setOnClickListener(this);
 
+        SharedPreferences sp1 = this.getActivity().getSharedPreferences("Login", Context.MODE_PRIVATE);
+
+        String email = sp1.getString("email", null);
+        String password = sp1.getString("password", null);
+        Log.d("E", email + password);
+
+        if(email != null && password != null) {
+            progressBar.setVisibility(View.VISIBLE);
+            login(email, password);
+        }
+
         return view;
     }
 
@@ -85,12 +98,21 @@ public class loginFragment extends Fragment implements View.OnClickListener {
         }
 
         progressBar.setVisibility(View.VISIBLE);
+        login(userEmail, userPassword);
+    }
 
+    private void login(String userEmail, String userPassword) {
         DbModel.dbIns.loginUser(userEmail, userPassword, new DbModel.LoginUserListener() {
             @Override
             public void onComplete(FirebaseUser user, Task<AuthResult> task) {
                 if(task.isSuccessful()) {
+                    SharedPreferences sp= getActivity().getSharedPreferences("Login", Context.MODE_PRIVATE);
+                    SharedPreferences.Editor Ed=sp.edit();
+                    Ed.putString("email", userEmail );
+                    Ed.putString("password", userPassword);
+                    Ed.commit();
                     Navigation.findNavController(view).navigate(loginFragmentDirections.actionLoginFragmentToHomepageFragment());
+
                 }else {
                     Toast.makeText(getActivity(), "Login Failed, email/password is not valid.", Toast.LENGTH_LONG).show();
                 }
@@ -98,4 +120,6 @@ public class loginFragment extends Fragment implements View.OnClickListener {
             }
         });
     }
+
+
 }
