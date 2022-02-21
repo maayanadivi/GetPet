@@ -14,6 +14,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -99,7 +100,7 @@ public class homepage_Fragment extends Fragment implements View.OnClickListener{
 
         progressBar.setVisibility(View.VISIBLE);
 
-        adapter.setOnItemClickListener(new com.example.getpet.Model.interfaces.OnItemClickListener() {
+        adapter.setOnItemClickListener(new OnItemClickListener() {
             @Override
             public void onItemClick(int position, View v) {
                 Pets pet = viewModel.getData().getValue().get(position);
@@ -114,8 +115,22 @@ public class homepage_Fragment extends Fragment implements View.OnClickListener{
         Model.instance.getPetsLoadingState().observe(getViewLifecycleOwner(), loadingState -> {
             swipeRefresh.setRefreshing(loadingState == Model.LoadingState.loading);
         });
+        view.setFocusableInTouchMode(true);
+        view.requestFocus();
+        view.setOnKeyListener(new View.OnKeyListener() {
 
+            @Override
+            public boolean onKey(View v, int keyCode, KeyEvent event) {
+                if (event.getAction() == KeyEvent.ACTION_DOWN) {
+                    if (keyCode == KeyEvent.KEYCODE_BACK) {
+                        return true;
+                    }
+                }
+                return false;
+            }
+        });
         return view;
+
     }
 
     public void onClick(View v) {
@@ -134,8 +149,6 @@ public class homepage_Fragment extends Fragment implements View.OnClickListener{
         super.onCreateOptionsMenu(menu, inflater);
         inflater.inflate(R.menu.pet_list ,menu);
     }
-    interface OnItemClickListener{
-        void onItemClick(int position, View v);
-    }
+
 
 }

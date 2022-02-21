@@ -16,6 +16,7 @@ import android.widget.ProgressBar;
 
 import com.example.getpet.Model.Recycler.MyAdapter;
 import com.example.getpet.Model.User;
+import com.squareup.picasso.Picasso;
 
 
 public class myProfile_Fragment extends Fragment implements View.OnClickListener{
@@ -63,8 +64,11 @@ public class myProfile_Fragment extends Fragment implements View.OnClickListener
         }
     }
 
-    private void updateUserPage() {
+
+    private void updateUserProfile() {
         FullName.setText(user.getFullName());
-        //progressbar.setVisibility(View.GONE);
+        progressbar.setVisibility(View.GONE);
+
     }
+
 }

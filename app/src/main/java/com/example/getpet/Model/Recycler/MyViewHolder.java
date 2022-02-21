@@ -4,15 +4,11 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
-
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
-
-import com.example.getpet.Model.Pets;
 import com.example.getpet.Model.interfaces.OnItemClickListener;
 import com.example.getpet.R;
-import com.example.getpet.homepage_Fragment;
-import com.squareup.picasso.Picasso;
+
 
 public class MyViewHolder extends RecyclerView.ViewHolder {
     TextView area, name, type;
