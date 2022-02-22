@@ -174,6 +174,7 @@ public class DbModel {
 
     public void uploadImage(Bitmap bitmap, String id_key, final UploadImageListener listener)  {
 
+
         FirebaseStorage storage = FirebaseStorage.getInstance();
         final StorageReference imageRef;
 

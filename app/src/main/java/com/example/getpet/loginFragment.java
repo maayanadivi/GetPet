@@ -106,7 +106,7 @@ public class loginFragment extends Fragment implements View.OnClickListener {
             @Override
             public void onComplete(FirebaseUser user, Task<AuthResult> task) {
                 if(task.isSuccessful()) {
-                    SharedPreferences sp= getActivity().getSharedPreferences("Login", Context.MODE_PRIVATE);
+                    SharedPreferences sp = getActivity().getSharedPreferences("Login", Context.MODE_PRIVATE);
                     SharedPreferences.Editor Ed=sp.edit();
                     Ed.putString("email", userEmail );
                     Ed.putString("password", userPassword);

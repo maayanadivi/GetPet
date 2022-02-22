@@ -1,5 +1,7 @@
 package com.example.getpet;
 
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
@@ -10,6 +12,7 @@ import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ProgressBar;
@@ -28,6 +31,7 @@ public class myProfile_Fragment extends Fragment implements View.OnClickListener
     ProgressBar progressbar;
     SwipeRefreshLayout swipeRefresh;
     myProfile_FragmentViewModel viewModel;
+    Button logout;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -47,9 +51,11 @@ public class myProfile_Fragment extends Fragment implements View.OnClickListener
         FullName = view.findViewById(R.id.name);
         progressbar=view.findViewById(R.id.profile_progress);
         swipeRefresh=view.findViewById(R.id.petlist_swipe_refresh);
+        logout=view.findViewById(R.id.logout_btn);
 
         addPost.setOnClickListener(this);
         back.setOnClickListener(this);
+        logout.setOnClickListener(this);
         return view;
     }
 
@@ -61,6 +67,16 @@ public class myProfile_Fragment extends Fragment implements View.OnClickListener
             case R.id.back_btn:
                 Navigation.findNavController(view).navigateUp();
                 break;
+
+            case R.id.logout_btn:
+                SharedPreferences sp = getActivity().getSharedPreferences("Login", Context.MODE_PRIVATE);
+                SharedPreferences.Editor Ed=sp.edit();
+                Ed.remove("email");
+                Ed.remove("password");
+                Ed.commit();
+
+                Navigation.findNavController(view).navigate(myProfile_FragmentDirections.actionMyProfileFragmentToLoginFragment());
+
         }
     }
 
