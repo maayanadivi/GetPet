@@ -57,6 +57,7 @@ public class addPost_Fragment extends Fragment implements View.OnClickListener{
         age = view.findViewById(R.id.age);
         phone = view.findViewById(R.id.contact);
 
+
         progressBar = view.findViewById(R.id.addPost_progress);
 
         cancel.setOnClickListener(this);
@@ -89,6 +90,7 @@ public class addPost_Fragment extends Fragment implements View.OnClickListener{
        ageInput = age.getText().toString();
        phoneInput = phone.getText().toString();
 
+
        if (typeInput.isEmpty()){
            type.setError("Required Field");
            type.requestFocus();
@@ -118,7 +120,7 @@ public class addPost_Fragment extends Fragment implements View.OnClickListener{
 
        progressBar.setVisibility(View.VISIBLE);
 
-       Pets pet = new Pets(typeInput,petNameInput,areaInput,ageInput,phoneInput);
+       Pets pet = new Pets(typeInput,petNameInput,areaInput,ageInput,phoneInput,"" );
 
        DbModel.dbIns.uploadPet(pet, bitmap, new UploadPetListener() {
            @Override

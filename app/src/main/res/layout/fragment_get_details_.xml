@@ -146,14 +146,11 @@
             android:id="@+id/call_btn"
             android:layout_width="67dp"
             android:layout_height="40dp"
-            android:layout_marginStart="274dp"
             android:layout_marginBottom="76dp"
-            android:text="call"
-            android:textSize="12sp"
+            android:text="CALL"
+            android:textSize="10sp"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.0"
-            />
+            app:layout_constraintEnd_toEndOf="parent" />
         <TextView
             android:id="@+id/text_EditPost"
             android:layout_width="wrap_content"

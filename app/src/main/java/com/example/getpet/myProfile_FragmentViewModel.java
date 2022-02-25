@@ -11,16 +11,14 @@ import java.util.List;
 
 public class myProfile_FragmentViewModel extends ViewModel {
     LiveData<List<Pets>> data;
-    User user;
+    String ownerId;
 
     public LiveData<List<Pets>> getData() {
         return data;
     }
 
-    public void setData(User user) {
-        this.user = user;
-
-//        this.data = Model.instance.getUserPetsByEmail(user.getEmail());
-        //
+    public void setData(String ownerId) {
+        this.ownerId = ownerId;
+        this.data = Model.instance.getUserPetsByOwnerId(ownerId);
     }
 }

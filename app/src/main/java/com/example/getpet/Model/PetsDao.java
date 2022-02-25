@@ -19,8 +19,8 @@ public interface PetsDao {
     @Delete
     void delete(Pets pets);
 
-    @Query("SELECT * FROM Pets WHERE id=:id ")
-    Pets getPet(String id);
+    @Query("SELECT * FROM Pets WHERE ownerId=:id ")
+    LiveData<List<Pets>> getPetsByOwnerId(String id);
 
     @Query("SELECT * FROM Pets WHERE petName=:name ")
     LiveData<List<Pets>> getPetByName(String name);

@@ -14,4 +14,5 @@ public class Constants {
     public final static String TYPE = "type";
     public final static String AGE = "age";
     public final static String TIME = "timestamp";
+    public final static String FB_USER_COLLECTION= "users";
 }

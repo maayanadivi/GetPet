@@ -6,6 +6,7 @@ import android.util.Log;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 
+import com.example.getpet.Model.interfaces.GetUserById;
 import com.example.getpet.Model.interfaces.UploadImageListener;
 import com.example.getpet.Model.interfaces.UploadPetListener;
 import com.example.getpet.MyApplication;
@@ -15,6 +16,7 @@ import java.util.List;
 
 public class Model {
     public static final Model instance = new Model();
+
     DbModel modelFirebase = new DbModel();
     MutableLiveData<LoadingState> petsListLoadingState = new MutableLiveData<LoadingState>();
     MutableLiveData<List<Pets>> petsList = new MutableLiveData<>();
@@ -67,13 +69,17 @@ public class Model {
         });
     }
 
+    public void getUserById(String userId, GetUserById listener) {
+        DbModel.dbIns.getUserById(userId, listener);
+    }
+
     public void uploadImage(Bitmap bitmap, String name, final UploadImageListener listener){
         modelFirebase.uploadImage(bitmap,name,listener);
     }
 
-//    public LiveData<List<Pets>> getUserPetsByEmail(String email) {
-//        return AppLocalDB.db.userDao().getUserPetsByEmail(email);
-//    }
+    public LiveData<List<Pets>> getUserPetsByOwnerId(String ownerId) {
+        return AppLocalDB.db.petsDao().getPetsByOwnerId(ownerId);
+    }
 
     public void addPet(Pets pet, Bitmap bitmap, UploadPetListener listener) {
         modelFirebase.uploadPet(pet, bitmap, new UploadPetListener() {

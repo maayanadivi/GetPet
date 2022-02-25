@@ -4,18 +4,13 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Parcel;
 import android.os.Parcelable;
-import android.util.Log;
 
 import androidx.annotation.NonNull;
-import androidx.lifecycle.LiveData;
 import androidx.room.Entity;
 import androidx.room.PrimaryKey;
 
 import com.google.firebase.Timestamp;
-import com.google.firebase.firestore.FieldValue;
 
-import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 import com.example.getpet.MyApplication;
 
@@ -25,18 +20,19 @@ public class Pets implements Parcelable {
     @PrimaryKey
     @NonNull
     private String id = "";
-    private String type, petName, area, age, phone, img;
+    private String type, petName, area, age, phone, img, ownerId;
     private boolean isDeleted;
     private Long lastUpdated = new Long(0);
 
     public Pets(){}
 
-    public Pets(String type,String petName,String area,String age,String phone){
+    public Pets(String type,String petName,String area,String age,String phone, String ownerId){
         this.type = type;
         this.petName = petName;
         this.area = area;
         this.age = age;
         this.phone = phone;
+        this.ownerId = ownerId;
     }
 
 
@@ -68,6 +64,10 @@ public class Pets implements Parcelable {
         return id;
     }
 
+    public String  getOwnerId() {
+        return ownerId;
+    }
+
     public void setImg(String image) {
         this.img = image;
     }
@@ -83,6 +83,10 @@ public class Pets implements Parcelable {
     public void setArea(String area) { this.area = area; }
 
     public void setAge(String age) { this.age = age; }
+
+    public void setOwnerId(String ownerId) {
+        this.ownerId = ownerId;
+    }
 
     public void setPhone(String phone) { this.phone = phone; }
 
@@ -105,8 +109,9 @@ public class Pets implements Parcelable {
         String age = (String) json.get("age");
         String phone = (String) json.get("phone");
         String img = (String) json.get("img");
+        String ownerId = (String) json.get("ownerId");
 
-        Pets pet = new Pets(type,name,area,age,phone);
+        Pets pet = new Pets(type,name,area,age,phone, ownerId);
         pet.setImg(img);
 
         Timestamp ts = (Timestamp)json.get(Constants.LAST_UPDATED);
@@ -159,6 +164,8 @@ public class Pets implements Parcelable {
         parcel.writeString(age);
         parcel.writeString(phone);
         parcel.writeString(img);
+        parcel.writeString(ownerId);
+
         parcel.writeByte((byte) (isDeleted ? 1 : 0));
         if (lastUpdated == null) {
             parcel.writeByte((byte) 0);
@@ -176,6 +183,7 @@ public class Pets implements Parcelable {
         age = in.readString();
         phone = in.readString();
         img = in.readString();
+        ownerId = in.readString();
 
         isDeleted = in.readByte() != 0;
         if (in.readByte() == 0) {

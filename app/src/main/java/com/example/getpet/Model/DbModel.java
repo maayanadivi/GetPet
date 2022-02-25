@@ -7,6 +7,7 @@ import android.util.Log;
 
 import androidx.annotation.NonNull;
 
+import com.example.getpet.Model.interfaces.GetUserById;
 import com.example.getpet.Model.interfaces.UploadImageListener;
 import com.example.getpet.Model.interfaces.UploadPetListener;
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -101,10 +102,13 @@ public class DbModel {
                                     dbPet.put("timestamp", FieldValue.serverTimestamp());
                                     Log.d("IMG", url);
                                     dbPet.put("img", url);
+                                    dbPet.put("ownerId", user.getUid());
+
                                     petDocRef.set(dbPet).addOnCompleteListener(new OnCompleteListener<Void>() {
                                         @Override
                                         public void onComplete(@NonNull Task<Void> task) {
                                             pets.setImg(url);
+                                            pets.setOwnerId(user.getUid());
                                             listener.onComplete(task, pets);
                                         }
                                     });
@@ -172,6 +176,24 @@ public class DbModel {
         });
     }
 
+    public void getUserById(String uid, GetUserById listener) {
+
+        DocumentReference docRef = db.collection(Constants.FB_USER_COLLECTION).document(uid);
+        docRef.get().addOnCompleteListener(task -> {
+            if (task.isSuccessful()) {
+                DocumentSnapshot document = task.getResult();
+                if (document.exists()) {
+                    User u = User.fromJson(document.getData());
+                    u.setId(uid);
+                    listener.onComplete(u);
+                } else {
+                    listener.onComplete(null);
+                }
+            } else {
+                listener.onComplete(null);
+            }
+        });
+    }
     public void uploadImage(Bitmap bitmap, String id_key, final UploadImageListener listener)  {
 
 
@@ -201,5 +223,7 @@ public class DbModel {
             }
         });
     }
+
+
 
 }

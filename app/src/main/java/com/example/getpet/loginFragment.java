@@ -110,6 +110,7 @@ public class loginFragment extends Fragment implements View.OnClickListener {
                     SharedPreferences.Editor Ed=sp.edit();
                     Ed.putString("email", userEmail );
                     Ed.putString("password", userPassword);
+                    Ed.putString("userID", user.getUid());
                     Ed.commit();
                     Navigation.findNavController(view).navigate(loginFragmentDirections.actionLoginFragmentToHomepageFragment());
 

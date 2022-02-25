@@ -15,6 +15,7 @@ public class User  implements Parcelable {
     @NonNull
     String email;
     String fullName;
+    String id;
 
     public User(){}
 
@@ -27,10 +28,15 @@ public class User  implements Parcelable {
     protected User(Parcel in) {
         email = in.readString();
         fullName = in.readString();
+        id = in.readString();
     }
 
     public String getEmail() {
         return email;
+    }
+
+    public String getId() {
+        return id;
     }
 
     public String getFullName() {
@@ -39,6 +45,10 @@ public class User  implements Parcelable {
 
     public void setEmail(String email) {
         this.email = email;
+    }
+
+    public void setId(String id){
+        this.id = id ;
     }
 
     public void setFullName(String fullName) {
@@ -73,5 +83,6 @@ public class User  implements Parcelable {
     public void writeToParcel(Parcel parcel, int flags) {
         parcel.writeString(email);
         parcel.writeString(fullName);
+        parcel.writeString(id);
     }
 }

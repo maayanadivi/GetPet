@@ -6,7 +6,7 @@ import androidx.room.RoomDatabase;
 
 import com.example.getpet.MyApplication;
 
-@Database(entities = {Pets.class, User.class}, version = 6)
+@Database(entities = {Pets.class, User.class}, version = 5)
 abstract class AppLocalDbRepository extends RoomDatabase {
     public abstract PetsDao petsDao();
     public abstract UserDao userDao();

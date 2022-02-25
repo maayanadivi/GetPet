@@ -1,6 +1,7 @@
 package com.example.getpet;
 
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -27,11 +28,13 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
-
+import com.example.getpet.Model.interfaces.GetUserById;
+import com.example.getpet.Model.DbModel;
 import com.example.getpet.Model.Model;
 import com.example.getpet.Model.Pets;
 import com.example.getpet.Model.Recycler.MyAdapter;
 import com.example.getpet.Model.User;
+import com.example.getpet.Model.interfaces.GetUserById;
 import com.example.getpet.Model.interfaces.OnItemClickListener;
 import com.squareup.picasso.Picasso;
 
@@ -46,6 +49,7 @@ public class homepage_Fragment extends Fragment implements View.OnClickListener{
     ProgressBar progressBar;
     RecyclerView list;
     ImageButton addPost, toProfile;
+    User curUser;
 
 
     @Override
@@ -63,6 +67,17 @@ public class homepage_Fragment extends Fragment implements View.OnClickListener{
         swipeRefresh = view.findViewById(R.id.petlist_swipe_refresh);
         addPost = view.findViewById((R.id.addPost_btn));
         toProfile = view.findViewById(R.id.profile_btn);
+
+        SharedPreferences sp = getActivity().getSharedPreferences("Login", Context.MODE_PRIVATE);
+        String userId = sp.getString("userID", null);
+        if(userId!=null){
+            Model.instance.getUserById(userId, new GetUserById() {
+                @Override
+                public void onComplete(User user) {
+                    curUser = user;
+                }
+            });
+        }
 
         addPost.setOnClickListener(this);
         toProfile.setOnClickListener(this);
@@ -140,7 +155,7 @@ public class homepage_Fragment extends Fragment implements View.OnClickListener{
                 Navigation.findNavController(view).navigate(homepage_FragmentDirections.actionHomepageFragmentToAddPostFragment());
                 break;
             case R.id.profile_btn:
-                Navigation.findNavController(view).navigate(homepage_FragmentDirections.actionHomepageFragmentToMyProfileFragment(new User()));
+                Navigation.findNavController(view).navigate(homepage_FragmentDirections.actionHomepageFragmentToMyProfileFragment(curUser));
                 break;
         }
     }
