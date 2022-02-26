@@ -54,9 +54,6 @@
             android:id="@+id/action_myProfile_Fragment_to_homepage_Fragment"
             app:destination="@id/homepage_Fragment" />
         <action
-            android:id="@+id/action_myProfile_Fragment_to_myPostFragment"
-            app:destination="@id/myPostFragment" />
-        <action
             android:id="@+id/action_myProfile_Fragment_to_addPost_Fragment"
             app:destination="@id/addPost_Fragment" />
         <argument
@@ -65,15 +62,21 @@
         <action
             android:id="@+id/action_myProfile_Fragment_to_loginFragment"
             app:destination="@id/loginFragment" />
+        <action
+            android:id="@+id/action_myProfile_Fragment_to_getDetails_Fragment"
+            app:destination="@id/getDetails_Fragment" />
     </fragment>
     <fragment
         android:id="@+id/editPost_Fragment"
         android:name="com.example.getpet.editPost_Fragment"
         android:label="fragment_edit_post_"
         tools:layout="@layout/fragment_edit_post_" >
+        <argument
+            android:name="pet"
+            app:argType="com.example.getpet.Model.Pets" />
         <action
-            android:id="@+id/action_editPost_Fragment_to_myPostFragment"
-            app:destination="@id/myPostFragment" />
+            android:id="@+id/action_editPost_Fragment_to_homepage_Fragment"
+            app:destination="@id/homepage_Fragment" />
     </fragment>
     <fragment
         android:id="@+id/getDetails_Fragment"
@@ -89,17 +92,8 @@
         <argument
             android:name="pet"
             app:argType="com.example.getpet.Model.Pets" />
-    </fragment>
-    <fragment
-        android:id="@+id/myPostFragment"
-        android:name="com.example.getpet.myPostFragment"
-        android:label="fragment_my_post"
-        tools:layout="@layout/fragment_my_post" >
         <action
-            android:id="@+id/action_myPostFragment_to_myProfile_Fragment"
-            app:destination="@id/myProfile_Fragment" />
-        <action
-            android:id="@+id/action_myPostFragment_to_editPost_Fragment"
+            android:id="@+id/action_getDetails_Fragment_to_editPost_Fragment"
             app:destination="@id/editPost_Fragment" />
     </fragment>
     <fragment

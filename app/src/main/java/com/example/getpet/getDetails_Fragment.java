@@ -1,6 +1,8 @@
 package com.example.getpet;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
@@ -25,7 +27,7 @@ import com.squareup.picasso.Picasso;
 
 
 public class getDetails_Fragment extends Fragment implements View.OnClickListener {
-    ImageButton back ,toProfile;
+    ImageButton back ,toProfile, editProduct;
     View view;
     Button call;
     Pets pet;
@@ -43,6 +45,8 @@ public class getDetails_Fragment extends Fragment implements View.OnClickListene
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.fragment_get_details_, container, false);
+        SharedPreferences sp = getActivity().getSharedPreferences("Login", Context.MODE_PRIVATE);
+        String curUSerId = sp.getString("userID", null);
 
         back = view.findViewById(R.id.back_btn);
         toProfile = view.findViewById(R.id.profile_btn);
@@ -54,10 +58,16 @@ public class getDetails_Fragment extends Fragment implements View.OnClickListene
         phoneText = view.findViewById(R.id.get_details_phone);
         petImg = view.findViewById(R.id.get_details_petImage);
         progressBar = view.findViewById(R.id.getDetails_progress);
+        editProduct = view.findViewById(R.id.edit_btn_get_details);
 
         toProfile.setOnClickListener(this);
         back.setOnClickListener(this);
         call.setOnClickListener(this);
+
+        if(curUSerId.trim().equals(pet.getOwnerId().trim())) {
+            editProduct.setVisibility(View.VISIBLE);
+            editProduct.setOnClickListener(this);
+        }
 
         typeText.setText("Type: " + pet.getType());
         nameText.setText("Name: " + pet.getPetName());
@@ -83,6 +93,11 @@ public class getDetails_Fragment extends Fragment implements View.OnClickListene
                 break;
             case R.id.back_btn:
                 Navigation.findNavController(view).navigateUp();
+                break;
+            case R.id.edit_btn_get_details:
+                Navigation.findNavController(view).navigate(getDetails_FragmentDirections.actionGetDetailsFragmentToEditPostFragment(pet));
+                break;
+            default:
                 break;
         }
     }

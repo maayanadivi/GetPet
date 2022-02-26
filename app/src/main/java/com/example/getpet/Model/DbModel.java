@@ -6,6 +6,8 @@ import android.util.Log;
 
 import androidx.annotation.NonNull;
 
+import com.example.getpet.Model.interfaces.DeletePetsListener;
+import com.example.getpet.Model.interfaces.EditPetsListener;
 import com.example.getpet.Model.interfaces.GetUserById;
 import com.example.getpet.Model.interfaces.UploadImageListener;
 import com.example.getpet.Model.interfaces.UploadPetListener;
@@ -101,6 +103,7 @@ public class DbModel {
                                     Log.d("IMG", url);
                                     dbPet.put("img", url);
                                     dbPet.put("ownerId", user.getUid());
+                                    dbPet.put("isDeleted", false);
 
                                     petDocRef.set(dbPet).addOnCompleteListener(new OnCompleteListener<Void>() {
                                         @Override
@@ -122,6 +125,34 @@ public class DbModel {
         });
     }
 
+    public void editProduct(Pets pets, Bitmap bitmap, EditPetsListener listener) {
+        DocumentReference docRef = db.collection("pets").document(pets.getId());
+        if(bitmap == null) {
+            docRef.set(pets.toJson()).addOnSuccessListener(unused -> listener.onComplete(pets));
+        } else {
+            uploadImage(bitmap, pets.getId(), url -> {
+                pets.setImg(url);
+                docRef.set(pets.toJson()).addOnSuccessListener(new OnSuccessListener<Void>() {
+                    @Override
+                    public void onSuccess(Void unused) {
+                        listener.onComplete(pets);
+                    }
+                });
+            });
+        }
+
+    }
+
+    public void deletePet(Pets pets, DeletePetsListener listener) {
+        DocumentReference docRef = db.collection("pets").document(pets.getId());
+        docRef.update("isDeleted", true).addOnCompleteListener(new OnCompleteListener<Void>() {
+            @Override
+            public void onComplete(@NonNull Task<Void> task) {
+                listener.onComplete();
+            }
+        });
+    }
+
     public interface GetPetListener{
         void onComplete(Task task, Pets pet);
     }
@@ -138,6 +169,8 @@ public class DbModel {
             }
         });
     }
+
+
 
     public interface GetAllPetsListener{
         void onComplete(List<Pets> data);

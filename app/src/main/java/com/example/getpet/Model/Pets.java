@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Parcel;
 import android.os.Parcelable;
+import android.util.Log;
 
 import androidx.annotation.NonNull;
 import androidx.room.Entity;
@@ -11,8 +12,10 @@ import androidx.room.PrimaryKey;
 
 import com.google.firebase.Timestamp;
 
+import java.util.HashMap;
 import java.util.Map;
 import com.example.getpet.MyApplication;
+import com.google.firebase.firestore.FieldValue;
 
 
 @Entity
@@ -113,11 +116,29 @@ public class Pets implements Parcelable {
 
         Pets pet = new Pets(type,name,area,age,phone, ownerId);
         pet.setImg(img);
+        boolean isDeleted = (boolean)json.get("isDeleted");
+        pet.setDeleted(isDeleted);
 
         Timestamp ts = (Timestamp)json.get(Constants.LAST_UPDATED);
         pet.setLastUpdated(new Long(ts.getSeconds()));
 
         return pet;
+    }
+
+    public Map<String, Object> toJson() {
+        Map<String, Object> dbPet = new HashMap<>();
+
+        dbPet.put("type", this.getType());
+        dbPet.put("name_pet", this.getPetName());
+        dbPet.put("area", this.getArea());
+        dbPet.put("age", this.getAge());
+        dbPet.put("phone", this.getPhone());
+        dbPet.put("timestamp", FieldValue.serverTimestamp());
+        dbPet.put("img", this.getImg());
+        dbPet.put("ownerId", ownerId);
+        dbPet.put("isDeleted", isDeleted);
+
+        return dbPet;
     }
 
     static Long getLocalLastUpdated(){

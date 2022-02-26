@@ -48,7 +48,8 @@
             android:src="@drawable/addp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/text_EditPost" />
+            app:layout_constraintTop_toBottomOf="@+id/text_EditPost"
+        />
 
         <EditText
             android:id="@+id/Name"
@@ -62,9 +63,8 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.505"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/type">
-
-        </EditText>
+            app:layout_constraintTop_toBottomOf="@+id/type"
+            />
 
         <EditText
             android:id="@+id/age"
@@ -78,9 +78,8 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.494"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/area">
-
-        </EditText>
+            app:layout_constraintTop_toBottomOf="@+id/area"
+            />
 
         <EditText
             android:id="@+id/contact"
@@ -94,9 +93,8 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.515"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/age">
-
-        </EditText>
+            app:layout_constraintTop_toBottomOf="@+id/age"
+            />
 
         <EditText
             android:id="@+id/area"
@@ -110,9 +108,8 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.505"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/Name">
-
-        </EditText>
+            app:layout_constraintTop_toBottomOf="@+id/Name"
+            />
 
         <Button
             android:id="@+id/cancel_btn"
@@ -124,6 +121,16 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.05"
             app:layout_constraintStart_toStartOf="parent" />
+
+        <Button
+            android:id="@+id/delete_btn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="4dp"
+            android:text="delete"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/save_btn"
+            app:layout_constraintStart_toEndOf="@+id/cancel_btn" />
 
         <Button
             android:id="@+id/save_btn"
@@ -147,5 +154,18 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
+
+        <ProgressBar
+            android:id="@+id/edit_pet_progress"
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:layout_centerInParent="true"
+            android:visibility="invisible"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            />
+
     </androidx.constraintlayout.widget.ConstraintLayout>
 </FrameLayout>

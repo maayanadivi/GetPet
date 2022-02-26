@@ -132,6 +132,17 @@
             app:layout_constraintStart_toStartOf="parent" />
 
         <ImageButton
+            android:id="@+id/edit_btn_get_details"
+            android:layout_width="70dp"
+            android:layout_height="70dp"
+            android:src="@drawable/edit"
+            android:visibility="invisible"
+            android:scaleType="fitXY"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="@id/profile_btn"
+            app:layout_constraintStart_toStartOf="@id/back_btn" />
+
+        <ImageButton
             android:id="@+id/profile_btn"
             android:layout_width="70dp"
             android:layout_height="70dp"

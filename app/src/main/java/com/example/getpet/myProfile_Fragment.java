@@ -34,7 +34,6 @@ import java.util.List;
 public class myProfile_Fragment extends Fragment implements View.OnClickListener{
     ImageButton addPost, back;
     View view;
-    EditText FullName;
     User user;
     MyAdapter adapter;
     ProgressBar progressbar;
@@ -56,12 +55,8 @@ public class myProfile_Fragment extends Fragment implements View.OnClickListener
         view = inflater.inflate(R.layout.fragment_my_profile_, container, false);
         user = myProfile_FragmentArgs.fromBundle(getArguments()).getUser();
 
-        viewModel.setData(user.getId());
-
         addPost = view.findViewById(R.id.addPost_btn);
         back = view.findViewById(R.id.back_btn);
-
-        progressbar = view.findViewById(R.id.profile_progress);
         swipeRefresh = view.findViewById(R.id.profile_swipe_refresh);
         recyclerView = view.findViewById(R.id.recycler_profile);
         logout = view.findViewById(R.id.logout_btn);
@@ -73,6 +68,8 @@ public class myProfile_Fragment extends Fragment implements View.OnClickListener
         back.setOnClickListener(this);
         logout.setOnClickListener(this);
 
+        viewModel.setData(user.getId());
+
         adapter = new MyAdapter();
         recyclerView.setHasFixedSize(true);
         recyclerView.setAdapter(adapter);
@@ -83,37 +80,29 @@ public class myProfile_Fragment extends Fragment implements View.OnClickListener
         recyclerView.setLayoutManager(linearLayoutManager);
         recyclerView.addItemDecoration(dividerItemDecoration);
 
-        viewModel.getData().observe(getViewLifecycleOwner(), new Observer<List<Pets>>() {
-            @Override
-            public void onChanged(List<Pets> posts) {
-                adapter.setFragment(myProfile_Fragment.this);
-                adapter.setData(posts);
-                adapter.notifyDataSetChanged();
-                progressBar.setVisibility(View.GONE);
-            }
+        viewModel.getData().observe(getViewLifecycleOwner(), posts -> {
+            adapter.setFragment(myProfile_Fragment.this);
+            adapter.setData(posts);
+            adapter.notifyDataSetChanged();
+            progressbar.setVisibility(View.INVISIBLE);
         });
 
-        adapter.setOnItemClickListener(new OnItemClickListener() {
-            @Override
-            public void onItemClick(int position, View v) {
-                Pets pet = viewModel.getData().getValue().get(position);
-                homepage_FragmentDirections.ActionHomepageFragmentToGetDetailsFragment action =
-                        homepage_FragmentDirections.actionHomepageFragmentToGetDetailsFragment(pet);
-                Navigation.findNavController(v).navigate(action);
-            }
+        adapter.setOnItemClickListener((position, v) -> {
+            Pets pet = viewModel.getData().getValue().get(position);
+            myProfile_FragmentDirections.ActionMyProfileFragmentToGetDetailsFragment action =
+                    myProfile_FragmentDirections.actionMyProfileFragmentToGetDetailsFragment(pet);
+            Navigation.findNavController(v).navigate(action);
         });
 
-        swipeRefresh.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
-            @Override
-            public void onRefresh() {
-                swipeRefresh.setRefreshing(true);
-                Model.instance.reloadPetList();
-                adapter.notifyDataSetChanged();
-                swipeRefresh.setRefreshing(false);
-            }
+        swipeRefresh.setOnRefreshListener(() -> {
+            swipeRefresh.setRefreshing(true);
+            Model.instance.reloadPetList();
+            adapter.notifyDataSetChanged();
+            swipeRefresh.setRefreshing(false);
         });
 
         swipeRefresh.setRefreshing(Model.instance.getPetsLoadingState().getValue() == Model.LoadingState.loading);
+
         Model.instance.getPetsLoadingState().observe(getViewLifecycleOwner(), loadingState -> {
             swipeRefresh.setRefreshing(loadingState == Model.LoadingState.loading);
         });
@@ -142,14 +131,5 @@ public class myProfile_Fragment extends Fragment implements View.OnClickListener
 
         }
     }
-
-
-    private void updateUserProfile() {
-        FullName.setText(user.getFullName());
-        progressbar.setVisibility(View.GONE);
-
-    }
-
-
 
 }

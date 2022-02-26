@@ -50,8 +50,8 @@ public class MyAdapter extends RecyclerView.Adapter<MyViewHolder> {
     @Override
     public void onBindViewHolder(@NonNull MyViewHolder holder, int position) {
         Pets p = data.get(position);
-        holder.area.setText(p.getArea());
-        holder.name.setText(p.getPetName());
+        holder.area.setText("Area:" + p.getArea());
+        holder.name.setText("Name: " + p.getPetName());
         holder.type.setText(p.getType());
 
         if (p.getImg() != null) {
