@@ -1,17 +1,9 @@
 package com.example.getpet.Model;
 
-import android.graphics.Bitmap;
-import android.util.Log;
-
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
-
 import com.example.getpet.Model.interfaces.GetUserById;
-import com.example.getpet.Model.interfaces.UploadImageListener;
-import com.example.getpet.Model.interfaces.UploadPetListener;
 import com.example.getpet.MyApplication;
-import com.google.android.gms.tasks.Task;
-
 import java.util.List;
 
 public class Model {
@@ -43,18 +35,17 @@ public class Model {
         petsListLoadingState.setValue(LoadingState.loading);
         Long localLastUpdate = Pets.getLocalLastUpdated();
 
-        modelFirebase.getAllPets(localLastUpdate,(list)-> {
-            if(list != null) {
-                MyApplication.executorService.execute(()-> {
+        modelFirebase.getAllPets(localLastUpdate, (list) -> {
+            if (list != null) {
+                MyApplication.executorService.execute(() -> {
                     Long lastUpdate = new Long(0);
-                    for(Pets pet : list) {
-                        if(!pet.isDeleted()) {
+                    for (Pets pet : list) {
+                        if (!pet.isDeleted()) {
                             AppLocalDB.db.petsDao().insertAll(pet);
-                        }
-                        else {
+                        } else {
                             AppLocalDB.db.petsDao().delete(pet);
                         }
-                        if (pet.getLastUpdated() > lastUpdate){
+                        if (pet.getLastUpdated() > lastUpdate) {
                             lastUpdate = pet.getLastUpdated();
                         }
                     }
@@ -73,22 +64,8 @@ public class Model {
         DbModel.dbIns.getUserById(userId, listener);
     }
 
-    public void uploadImage(Bitmap bitmap, String name, final UploadImageListener listener){
-        modelFirebase.uploadImage(bitmap,name,listener);
-    }
-
     public LiveData<List<Pets>> getUserPetsByOwnerId(String ownerId) {
         return AppLocalDB.db.petsDao().getPetsByOwnerId(ownerId);
-    }
-
-    public void addPet(Pets pet, Bitmap bitmap, UploadPetListener listener) {
-        modelFirebase.uploadPet(pet, bitmap, new UploadPetListener() {
-            @Override
-            public void onComplete(Task task, Pets pet) {
-                reloadPetList();
-                listener.onComplete(task, pet);
-            }
-        });
     }
 
 }

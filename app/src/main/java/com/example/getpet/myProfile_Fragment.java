@@ -26,7 +26,7 @@ import com.example.getpet.Model.Pets;
 import com.example.getpet.Model.Recycler.MyAdapter;
 import com.example.getpet.Model.User;
 import com.example.getpet.Model.interfaces.OnItemClickListener;
-import com.squareup.picasso.Picasso;
+
 
 import java.util.List;
 

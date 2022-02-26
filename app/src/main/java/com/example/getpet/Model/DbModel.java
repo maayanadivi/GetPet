@@ -2,7 +2,6 @@ package com.example.getpet.Model;
 
 import android.graphics.Bitmap;
 import android.net.Uri;
-import android.net.wifi.WifiManager;
 import android.util.Log;
 
 import androidx.annotation.NonNull;
@@ -14,7 +13,6 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
-import com.google.firebase.Timestamp;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -162,7 +160,7 @@ public class DbModel {
                     }
 
                 }else {
-                    Log.d("PET", "Not successfull - didn't get all pets");
+                    Log.d("PET", "Not successful - didn't get all pets");
                 }
                 listener.onComplete(petsList);
             }
@@ -170,7 +168,7 @@ public class DbModel {
         }).addOnFailureListener(new OnFailureListener() {
             @Override
             public void onFailure(@NonNull Exception e) {
-                Log.d("ERROR!", "Not successfull - didn't get all pets");
+                Log.d("ERROR!", "Not successful - didn't get all pets");
                 listener.onComplete(null);
             }
         });

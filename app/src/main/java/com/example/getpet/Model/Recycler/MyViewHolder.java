@@ -1,7 +1,6 @@
 package com.example.getpet.Model.Recycler;
 
 import android.view.View;
-import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 import androidx.annotation.NonNull;
@@ -13,7 +12,7 @@ import com.example.getpet.R;
 public class MyViewHolder extends RecyclerView.ViewHolder {
     TextView area, name, type;
     ImageView img;
-    Button moreInfoBtn;
+
 
     public MyViewHolder(@NonNull View itemView, OnItemClickListener listener) {
         super(itemView);
