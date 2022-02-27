@@ -19,6 +19,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ProgressBar;
+import android.widget.Toast;
 
 import com.example.getpet.Model.Model;
 import com.example.getpet.Model.Pets;
@@ -99,6 +100,7 @@ public class editPost_Fragment extends Fragment implements View.OnClickListener 
         Model.instance.deletePet(pet, new DeletePetsListener() {
             @Override
             public void onComplete() {
+                Toast.makeText(getActivity(), "Deletion succeeded.", Toast.LENGTH_LONG).show();
                 Navigation.findNavController(view).navigate(editPost_FragmentDirections.actionEditPostFragmentToHomepageFragment());
             }
         });

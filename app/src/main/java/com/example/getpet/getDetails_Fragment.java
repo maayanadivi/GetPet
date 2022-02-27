@@ -20,8 +20,10 @@ import androidx.fragment.app.Fragment;
 import androidx.navigation.Navigation;
 
 import com.example.getpet.Model.DbModel;
+import com.example.getpet.Model.Model;
 import com.example.getpet.Model.Pets;
 import com.example.getpet.Model.User;
+import com.example.getpet.Model.interfaces.GetUserById;
 import com.google.android.gms.tasks.Task;
 import com.squareup.picasso.Picasso;
 
@@ -34,6 +36,7 @@ public class getDetails_Fragment extends Fragment implements View.OnClickListene
     ProgressBar progressBar;
     ImageView petImg;
     TextView typeText, nameText, areaText, ageText, phoneText;
+    User curUser;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -80,13 +83,23 @@ public class getDetails_Fragment extends Fragment implements View.OnClickListene
         if(pet.getImg() != null) {
             Picasso.get().load(pet.getImg()).into(petImg);
         }
+
+        String userId = sp.getString("userID", null);
+        if(userId!=null){
+            Model.instance.getUserById(userId, new GetUserById() {
+                @Override
+                public void onComplete(User user) {
+                    curUser = user;
+                }
+            });
+        }
         return view;
     }
 
     public void onClick(View v) {
         switch(v.getId()) {
             case R.id.profile_btn:
-                Navigation.findNavController(view).navigate(getDetails_FragmentDirections.actionGetDetailsFragmentToMyProfileFragment(new User()));
+                Navigation.findNavController(view).navigate(getDetails_FragmentDirections.actionGetDetailsFragmentToMyProfileFragment(curUser));
                 break;
             case R.id.call_btn:
                 call();

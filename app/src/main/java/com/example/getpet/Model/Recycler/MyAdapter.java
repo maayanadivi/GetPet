@@ -50,7 +50,7 @@ public class MyAdapter extends RecyclerView.Adapter<MyViewHolder> {
     @Override
     public void onBindViewHolder(@NonNull MyViewHolder holder, int position) {
         Pets p = data.get(position);
-        holder.area.setText("Area:" + p.getArea());
+        holder.area.setText("Area: " + p.getArea());
         holder.name.setText("Name: " + p.getPetName());
         holder.type.setText(p.getType());
 
