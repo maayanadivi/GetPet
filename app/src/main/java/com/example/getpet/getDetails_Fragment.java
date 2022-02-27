@@ -27,7 +27,7 @@ import com.squareup.picasso.Picasso;
 
 
 public class getDetails_Fragment extends Fragment implements View.OnClickListener {
-    ImageButton back ,toProfile, editProduct;
+    ImageButton back ,toProfile, editPet;
     View view;
     Button call;
     Pets pet;
@@ -58,15 +58,15 @@ public class getDetails_Fragment extends Fragment implements View.OnClickListene
         phoneText = view.findViewById(R.id.get_details_phone);
         petImg = view.findViewById(R.id.get_details_petImage);
         progressBar = view.findViewById(R.id.getDetails_progress);
-        editProduct = view.findViewById(R.id.edit_btn_get_details);
+        editPet = view.findViewById(R.id.edit_btn_get_details);
 
         toProfile.setOnClickListener(this);
         back.setOnClickListener(this);
         call.setOnClickListener(this);
 
         if(curUSerId.trim().equals(pet.getOwnerId().trim())) {
-            editProduct.setVisibility(View.VISIBLE);
-            editProduct.setOnClickListener(this);
+            editPet.setVisibility(View.VISIBLE);
+            editPet.setOnClickListener(this);
         }
 
         typeText.setText("Type: " + pet.getType());

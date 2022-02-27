@@ -76,7 +76,7 @@ public class Model {
     }
 
     public void editPost(Pets pets, Bitmap bitmap, EditPetsListener listener) {
-        modelFirebase.editProduct(pets, bitmap, listener);
+        modelFirebase.editPet(pets, bitmap, listener);
     }
 
     public void deletePet(Pets pets, DeletePetsListener listener) {

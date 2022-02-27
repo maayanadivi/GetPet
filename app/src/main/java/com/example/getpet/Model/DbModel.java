@@ -125,7 +125,7 @@ public class DbModel {
         });
     }
 
-    public void editProduct(Pets pets, Bitmap bitmap, EditPetsListener listener) {
+    public void editPet(Pets pets, Bitmap bitmap, EditPetsListener listener) {
         DocumentReference docRef = db.collection("pets").document(pets.getId());
         if(bitmap == null) {
             docRef.set(pets.toJson()).addOnSuccessListener(unused -> listener.onComplete(pets));
