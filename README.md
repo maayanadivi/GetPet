@@ -8,7 +8,7 @@ The app was developed by **Maayan Nadivi and Alice Aidlin** in Android Studio so
 The system is connected to a database and works with local and remote memory.
 An internet connection is required to use the app.
 
-<img width="194" alt="צילום מסך 2022-02-27 195520" src="https://user-images.githubusercontent.com/73596043/155893836-db4c851c-5b14-425e-b30c-b53f5bb8bd5c.png">
+<img width="205" alt="צילום מסך 2022-02-28 114902" src="https://user-images.githubusercontent.com/73596043/155962084-75ece99a-a593-487d-b028-471e188414ad.png">
 
 **For starters sign up or log in to the app**
 
